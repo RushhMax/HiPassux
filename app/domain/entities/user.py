@@ -10,3 +10,6 @@ class User(db.Model):
     gender = db.Column(db.String(1))
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
+
+    def __repr__(self):
+        return f'<User {self.username}>'
