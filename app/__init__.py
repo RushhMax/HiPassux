@@ -3,6 +3,9 @@ from app.extensions import db, migrate
 from app.routes import init_routes
 from app.config import Config
 from app.api_routes import init_api_routes
+from app.domain.entities.user import db  #importante tienes que poner el directorio del modelo de tu tabla
+
+
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -14,8 +17,11 @@ def create_app(config_class=Config):
     
     init_routes(app)
     init_api_routes(app)
-    
+
     return app
+
+
+
 
 if __name__ == '__main__':
     app = create_app()
