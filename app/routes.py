@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from app.domain.entities.user import db, User  # importante tienes que poner el directorio del modelo de tu tabla
+from app.models.user import db, User  # importante tienes que poner el directorio del modelo de tu tabla
 from datetime import datetime
 
 routes = Blueprint('routes', __name__)
