@@ -12,8 +12,12 @@ Esta es una aplicación web desarrollada con Flask, utilizando un enfoque de **D
     │   ├── __init__.py
     │   ├── controllers/
     │   │   ├── __init__.py
-    │   │   ├── user_controller.py
+    │   │   ├── user_controller.py  # Controladores para rutas web
     │   │   └── ... (otros controladores)
+    │   ├── api/
+    │   │   ├── __init__.py
+    │   │   ├── user_api.py  # Controladores para rutas API
+    │   │   └── ... (otros controladores de API)
     │   ├── domain/
     │   │   ├── __init__.py
     │   │   ├── entities/
@@ -45,11 +49,13 @@ Esta es una aplicación web desarrollada con Flask, utilizando un enfoque de **D
     │   │   └── ... (otros viewmodels)
     │   ├── config.py
     │   ├── routes.py
-    │   └── extensions.py
+    │   ├── extensions.py
+    │   ├── api_routes.py  # Definición de rutas API
     │
     ├── tests/
     │   ├── __init__.py
     │   ├── test_user.py
+    │   ├── test_user_api.py  # Pruebas para la API
     │   └── ... (otros tests)
     │
     ├── migrations/
@@ -92,10 +98,11 @@ Esta es una aplicación web desarrollada con Flask, utilizando un enfoque de **D
     Crea un archivo `.env` en la raíz del proyecto con el siguiente contenido:
 
     ```plaintext
-    DATABASE_URL=mysql+pymysql://root:0012582@localhost/Passux
+    DATABASE_URL=mysql+pymysql://root:PASSWORD@localhost/DATABASENAME!
     ```
 
 5. **Inicializa la base de datos**:
+    Necesario haber creado la DATABASE, las relaciones se crean por medio de estos comandos!
 
     ```bash
     flask db init
