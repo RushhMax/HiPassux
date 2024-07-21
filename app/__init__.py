@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 from app.extensions import db, migrate
 from app.routes import init_routes
 from app.config import Config
+from app.api_routes import init_api_routes
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -12,6 +13,7 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     
     init_routes(app)
+    init_api_routes(app)
     
     return app
 
