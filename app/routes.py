@@ -37,6 +37,4 @@ def registrar_usuario():
         return f'Ocurrió un error: {e}', 500  # Mensaje de error con código de estado 500
 
 def init_routes(app):
-    app.register_blueprint(user_controller.bp)
-    # Test route Blueprint
-
+    app.register_blueprint(routes)
