@@ -1,4 +1,4 @@
-from app.models.user import db, User
+from app.domain.entities.user import db, User
 from werkzeug.security import generate_password_hash
 from datetime import datetime
 
