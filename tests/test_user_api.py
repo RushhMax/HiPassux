@@ -1,6 +1,6 @@
 import unittest
 from app import create_app, db
-from app.models.user import User
+from app.domain.entities.user import User
 
 class UserApiTestCase(unittest.TestCase):
     def setUp(self):

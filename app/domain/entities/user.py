@@ -1,9 +1,5 @@
 from app.extensions import db
 
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
-
 class User(db.Model):
     __tablename__ = 'USERS'  # Ensure this matches your table name
 
@@ -19,3 +15,15 @@ class User(db.Model):
 
     def __repr__(self):
         return f'<User {self.username}>'
+    
+    def to_dict(self):
+        return {
+            'id': self.user_id,
+            'username': self.username,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'birth_date': self.birth_date.isoformat() if self.birth_date else None,
+            'phone_number': self.phone_number,
+            'gender': self.gender,
+            'email': self.email
+        }
