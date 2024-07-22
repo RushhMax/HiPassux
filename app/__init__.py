@@ -4,6 +4,7 @@ from app.routes import init_routes
 from app.config import Config
 from app.api_routes import init_api_routes
 
+
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
@@ -13,7 +14,7 @@ def create_app(config_class=Config):
     
     init_routes(app)
     init_api_routes(app)
-    
+
     return app
 
 if __name__ == '__main__':

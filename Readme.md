@@ -147,3 +147,196 @@ Las contribuciones son bienvenidas. Por favor, sigue los siguientes pasos para c
 ## Licencia
 
 Este proyecto está licenciado bajo la [Licencia MIT](LICENSE).
+
+## Buenas Prácticas
+
+### Nombres de Variables y Funciones:
+
+Utiliza snake_case para variables y nombres de funciones:
+
+```python
+@bp.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        try:
+            username = request.form['username']
+            first_name = request.form['first_name']
+            last_name = request.form['last_name']
+            birth_date = datetime.strptime(request.form['birth_date'], '%Y-%m-%d')
+            phone_number = request.form.get('phone_number')
+            gender = request.form.get('gender')
+            email = request.form['email']
+            password = request.form['password']
+```
+### Nombres de Clases:
+
+Utiliza CamelCase para nombres de clases.
+
+```python
+from app.extensions import db
+
+class User(db.Model):
+    __tablename__ = 'USERS'  # Ensure this matches your table name
+```
+
+### Nombres de Constantes:
+
+Utiliza MAYÚSCULAS_CON_GUIONES_BAJOS para constantes
+
+```python
+class Config:
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'mysql+pymysql://root:PASSWORD@localhost/Passux') #mysql://username:password@host:port/database_name
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    DEBUG = True
+```
+
+### Indentación
+
+Usa 4 espacios por nivel de indentación (no uses tabuladores).
+
+```python
+def to_dict(self):
+    return {
+        'id': self.user_id,
+        'username': self.username,
+        'first_name': self.first_name,
+        'last_name': self.last_name,
+        'birth_date': self.birth_date.isoformat() if self.birth_date else None,
+        'phone_number': self.phone_number,
+        'gender': self.gender,
+        'email': self.email
+    }    
+```
+
+###  Líneas en Blanco
+
+Utiliza líneas en blanco para separar funciones y clases, así como bloques de código dentro de funciones.
+
+```python
+def __repr__(self):
+    return f'<User {self.username}>'
+    
+def to_dict(self):
+    return {
+        'id': self.user_id,
+        'username': self.username,
+        'first_name': self.first_name,
+        'last_name': self.last_name,
+        'birth_date': self.birth_date.isoformat() if self.birth_date else None,
+        'phone_number': self.phone_number,
+        'gender': self.gender,
+        'email': self.email
+    }    
+```
+
+### Manejo de Errores
+
+Usa bloques try-except para manejar excepciones y proporciona mensajes de error útiles.
+
+```python
+if __name__ == '__main__':
+    app = create_app()
+    try:
+        app.run(debug=True)
+    except Exception as e:
+        print(f"Error: {e}")
+```
+
+### Uso de F-Strings
+
+Utiliza f-strings (en Python 3.6 y posteriores) para la interpolación de cadenas.
+
+```python
+    try:
+        app.run(debug=True)
+    except Exception as e:
+        print(f"Error: {e}")
+```
+
+## Code Smells
+
+### Código repetido
+
+Extraer el código repetido en una función separada.
+
+```python
+    @user_api.route('/', methods=['GET'])
+    def get_users():
+        users = UserService.get_all_users()
+        return jsonify([user.to_dict() for user in users])
+
+    @user_api.route('/<int:user_id>', methods=['GET'])
+    def get_user(user_id):
+        user = UserService.get_user_by_id(user_id)
+        if user:
+            return jsonify(user.to_dict())
+        return jsonify({'error': 'User not found'}), 404
+
+    @user_api.route('/', methods=['POST'])
+    def create_user():
+        data = request.json
+        new_user = UserService.create_user(data)
+        return jsonify(new_user.to_dict()), 201
+```
+
+### Funciones Grandes
+
+Funciones que hacen demasiado y tienen muchas responsabilidades.
+
+```python
+    def create_app(config_class=Config):
+        app = Flask(__name__)
+        app.config.from_object(config_class)
+
+        db.init_app(app)
+        migrate.init_app(app, db)
+        
+        init_routes(app)
+        init_api_routes(app)
+
+        return app
+```
+
+## Bugs
+### Errores de Referencia
+
+Bug: Intentar acceder a una variable que no existe.
+
+
+```python
+from flask import Flask, jsonify
+from app.extensions import db, migrate
+from app.routes import init_routes
+from app.config import Config
+from app.api_routes import init_api_routes
+
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+
+    db.init_app(app)
+    migrate.init_app(app, db)
+        
+    init_routes(app)
+    init_api_routes(app)
+
+    return app
+```
+
+## Vulnerabilities
+
+Ejecutar consultas SQL con entrada no sanitizada.
+
+```python
+class UserRepository:
+
+    @staticmethod
+    def get_all_users():
+        return User.query.all()
+    
+    @staticmethod
+    def add_user(user):
+        db.session.add(user)
+        db.session.commit()
+```
