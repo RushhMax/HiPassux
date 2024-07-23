@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Main = () => {
+export const Main = () => {
   return (
     <main>
       <div className="container">
         <div className="left">
-          <img src="network-image.png" alt="Network Diagram" />
+          <img src="src/static/img/network-image.png" alt="Network Diagram" />
         </div>
         <div className="content-right">
           <div className="passux-tittle">
@@ -34,4 +34,26 @@ const Main = () => {
   );
 };
 
-export default Main;
+export const MainLobby = () => {
+  return (
+    <main>
+      <div className="container">
+        <aside aria-label="anuncio" className="img-anuncio">
+          <img src="src/static/img/anuncio.png" alt="img-perfil" />
+        </aside>
+        <div className="img-mensaje">
+          <img src="src/static/img/mensajePassux.png" alt="img-perfil" />
+        </div>
+      </div>
+      
+    </main>
+  );
+};
+
+export const AnuncioLobby = () => {
+  return (
+    <section className="main-content">
+      <img src="src/static/img/mensajeAnuncio.png" alt="mensajeAnuncio" />
+    </section>
+  );
+};

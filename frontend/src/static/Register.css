@@ -151,18 +151,12 @@ footer .container {
   gap:10%;
 }
 
-footer .social-media img {
-  width: 30px;
-  height: auto;
-  margin-right: 10px;
-  
-}
-
 footer .links {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
+  font-size: 20px;
 }
 
 footer .links div {
