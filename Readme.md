@@ -134,6 +134,10 @@ Esta es una aplicación web desarrollada con Flask, utilizando un enfoque de **D
 - **`tests/`**: Pruebas unitarias y de integración.
 - **`migrations/`**: Archivos de migración de la base de datos.
 
+
+## Reporte SonarLint
+- Define a constant instead of duplicating this literal 'User not found' 3 times. [+2 locations]
+
 ## Contribuciones
 
 Las contribuciones son bienvenidas. Por favor, sigue los siguientes pasos para contribuir:
@@ -144,6 +148,83 @@ Las contribuciones son bienvenidas. Por favor, sigue los siguientes pasos para c
 4. Empuja tus cambios (`git push origin feature/nueva-caracteristica`).
 5. Abre un Pull Request.
 
+## Buenas Practicas 
+- Uso de variables descriptivas para saber que se esta haciendo en esa funcion o lo que se esta pasando
+- Identacion correcta y separacion entre funciones para saber cual es la que se esta utilizando
+- Mensajes de error en los codigos para conocer en donde puede estar fallando el codigo y poder 
+  solucionarlo rapidamente 
+  ### Ejemplo Funciones implementadas 
+    ```python
+        @staticmethod
+    def update_user(user_id, username, first_name, last_name, birth_date, phone_number, gender, email, password=None):
+        try:
+            usuario = UserRepository.get_user_by_id(user_id)  # Usar el repositorio para obtener el usuario
+            if not usuario:
+                return {'error': 'Usuario no encontrado'}
+
+            # Actualizar los campos del usuario
+            usuario.username = username
+            usuario.first_name = first_name
+            usuario.last_name = last_name
+
+            if isinstance(birth_date, str):  # Convertir si es una cadena
+                try:
+                    usuario.birth_date = datetime.strptime(birth_date, '%Y-%m-%d').date()
+                except ValueError:
+                    return {'error': 'Formato de fecha inválido.'}
+            else:
+                usuario.birth_date = birth_date
+
+            usuario.phone_number = phone_number
+            usuario.gender = gender
+            usuario.email = email
+
+            if password:
+                usuario.password = generate_password_hash(password, method='sha256')
+
+            UserRepository.update_user(usuario)  # Usar el repositorio para actualizar el usuario
+            return usuario
+        except Exception as e:
+            return {'error': f'Ocurrió un error al actualizar el usuario: {str(e)}'}
+
+    @staticmethod
+    def get_user_by_id(user_id):
+        return UserRepository.get_user_by_id(user_id)
+    ```
+    ```python
+        @bp.route('/update/<int:user_id>', methods=['GET', 'POST'])
+def actualizar_usuario(user_id):
+    if request.method == 'POST':
+        try:
+            username = request.form.get('username')
+            first_name = request.form.get('first_name')
+            last_name = request.form.get('last_name')
+            birth_date = datetime.strptime(request.form.get['birth_date'], '%Y-%m-%d')
+            phone_number = request.form.get('phone_number')
+            gender = request.form.get('gender')
+            email = request.form.get('email')
+            password = request.form.get('password')
+
+            # Convertir la fecha si está presente
+            if birth_date:
+                try:
+                    birth_date = datetime.strptime(birth_date, '%Y-%m-%d').date()
+                except ValueError:
+                    return render_template('actualizar_perfil.html', error='Formato de fecha inválido.', user_id=user_id)
+
+            # Llamar al servicio para actualizar el usuario
+            result = UserService.update_user(
+                user_id=user_id,
+                username=username,
+                first_name=first_name,
+                last_name=last_name,
+                birth_date=birth_date,
+                phone_number=phone_number,
+                gender=gender,
+                email=email,
+                password=password
+            )
+    ```
 ## Licencia
 
 Este proyecto está licenciado bajo la [Licencia MIT](LICENSE).

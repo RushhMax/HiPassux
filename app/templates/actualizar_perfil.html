@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Actualizar Usuario</h1>
-    <form action="/actualizar_usuario" method="POST">
+    <form method="post" action="{{ url_for('user.actualizar_usuario', user_id=user.user_id) }}">
         <input type="hidden" name="_method" value="PUT">
         <label for="username">Nombre de Usuario:</label>
         <input type="text" id="username" name="username" required><br><br>

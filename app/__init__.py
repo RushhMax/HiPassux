@@ -9,7 +9,6 @@ from app.domain.entities.user import db  #importante tienes que poner el directo
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-    app.config['DEBUG'] = True
 
     db.init_app(app)
     migrate.init_app(app, db)
