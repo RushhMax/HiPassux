@@ -149,10 +149,10 @@ Las contribuciones son bienvenidas. Por favor, sigue los siguientes pasos para c
 5. Abre un Pull Request.
 
 ## Buenas Practicas 
-- Uso de variables descriptivas para saber que se esta haciendo en esa funcion o lo que se esta pasando
-- Identacion correcta y separacion entre funciones para saber cual es la que se esta utilizando
-- Mensajes de error en los codigos para conocer en donde puede estar fallando el codigo y poder 
-  solucionarlo rapidamente 
+- Es importante utilizar nombres descriptivos para las variables y parámetros. Esto facilita la comprensión del código y su mantenimiento. Por ejemplo, en la  función update_user, las variables username, first_name, last_name, birth_date, etc., son nombres claros que indican qué datos están siendo manipulados.
+- La correcta indentación y la separación de las funciones con líneas en blanco ayudan a mejorar la legibilidad del código. Cada función debe ser        independiente y fácil de identificar, lo cual es vital para el mantenimiento y la colaboración en equipo.
+- Los mensajes de error deben ser claros y específicos para facilitar la depuración y resolución de problemas. En el ejemplo proporcionado, 
+  los mensajes como  'Usuario no encontrado' y 'Formato de fecha inválido.' ayudan a identificar rápidamente la causa del error.
   ### Ejemplo Funciones implementadas 
     ```python
         @staticmethod
@@ -193,17 +193,17 @@ Las contribuciones son bienvenidas. Por favor, sigue los siguientes pasos para c
     ```
     ```python
         @bp.route('/update/<int:user_id>', methods=['GET', 'POST'])
-def actualizar_usuario(user_id):
-    if request.method == 'POST':
-        try:
-            username = request.form.get('username')
-            first_name = request.form.get('first_name')
-            last_name = request.form.get('last_name')
-            birth_date = datetime.strptime(request.form.get['birth_date'], '%Y-%m-%d')
-            phone_number = request.form.get('phone_number')
-            gender = request.form.get('gender')
-            email = request.form.get('email')
-            password = request.form.get('password')
+        def actualizar_usuario(user_id):
+            if request.method == 'POST':
+                try:
+                    username = request.form.get('username')
+                    first_name = request.form.get('first_name')
+                    last_name = request.form.get('last_name')
+                    birth_date = datetime.strptime(request.form.get['birth_date'], '%Y-%m-%d')
+                    phone_number = request.form.get('phone_number')
+                    gender = request.form.get('gender')
+                    email = request.form.get('email')
+                    password = request.form.get('password')
 
             # Convertir la fecha si está presente
             if birth_date:
@@ -224,6 +224,14 @@ def actualizar_usuario(user_id):
                 email=email,
                 password=password
             )
+
+            if 'error' in result:
+                return render_template('actualizar_perfil.html', error=result['error'], user_id=user_id)
+
+            return redirect(url_for('user.get_users'))
+
+        except Exception as e:
+            return render_template('actualizar_perfil.html', error=f'Ocurrió un error: {e}', user_id=user_id)
     ```
 ## Licencia
 
