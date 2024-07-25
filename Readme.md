@@ -248,6 +248,7 @@ Las contribuciones son bienvenidas. Por favor, sigue los siguientes pasos para c
         def get_users():
             users = UserService.get_all_users()
             return render_template('users.html', users=users)
+            
         # Se encarga de la logica de los usuarios creacion actualizacion 
         class UserService:
 
@@ -256,6 +257,8 @@ Las contribuciones son bienvenidas. Por favor, sigue los siguientes pasos para c
                 return UserRepository.get_all_users()
 
             @bp.route('/register', methods=['GET', 'POST'])
+            @staticmethod
+            def update_user(user_id, username, first_name, last_name, birth_date, phone_number, gender, email, password=None):
     
     ```
     
