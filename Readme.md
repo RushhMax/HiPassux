@@ -233,6 +233,39 @@ Las contribuciones son bienvenidas. Por favor, sigue los siguientes pasos para c
         except Exception as e:
             return render_template('actualizar_perfil.html', error=f'Ocurrió un error: {e}', user_id=user_id)
     ```
+## Principios solid aplicados 
+ ### Single Responsibility Principle (SRP):
+ - Cada clase tiene una unica responsabilidad en el codigo los controlladores servicios y operaciones tienen una responsabilidad
+    
+    ```python
+        class UserRepository:
+            #Se encarga de las operaciones 
+            @staticmethod
+                def get_all_users():
+                return User.query.all()
+        @bp.route('/users', methods=['GET'])
+        #Services se encarga de llamar a el servicio UserService maneja las solicitudes HTTP 
+        def get_users():
+            users = UserService.get_all_users()
+            return render_template('users.html', users=users)
+        # Se encarga de la logica de los usuarios creacion actualizacion 
+        class UserService:
+
+            @staticmethod
+            def get_all_users():
+                return UserRepository.get_all_users()
+
+            @bp.route('/register', methods=['GET', 'POST'])
+    
+    ```
+    
+ ### Open/Closed Principle (OCP):
+ - Podemos agregar y extender nuestro codigo sin necesidad de cambiar nuestro codigo original 
+ ### Ejemplos
+ - UserRepository: Podemos agregar nuevos métodos de consulta sin modificar el código existente, simplemente extendiendo la clase.
+UserService: Podemos añadir nuevas funcionalidades o servicios relacionados con usuarios sin cambiar los métodos existentes. Si necesitas algo nuevo
+solo extendemos la clase con otras funciones.
+ 
 ## Licencia
 
 Este proyecto está licenciado bajo la [Licencia MIT](LICENSE).
