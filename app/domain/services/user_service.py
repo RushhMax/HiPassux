@@ -24,16 +24,15 @@ class UserService:
     @staticmethod
     def update_user(user_id, username, first_name, last_name, birth_date, phone_number, gender, email, password=None):
         try:
-            usuario = UserRepository.get_user_by_id(user_id)  # Usar el repositorio para obtener el usuario
+            usuario = UserRepository.get_user_by_id(user_id)
             if not usuario:
                 return {'error': 'Usuario no encontrado'}
 
-            # Actualizar los campos del usuario
             usuario.username = username
             usuario.first_name = first_name
             usuario.last_name = last_name
 
-            if isinstance(birth_date, str):  # Convertir si es una cadena
+            if isinstance(birth_date, str):
                 try:
                     usuario.birth_date = datetime.strptime(birth_date, '%Y-%m-%d').date()
                 except ValueError:
@@ -48,7 +47,7 @@ class UserService:
             if password:
                 usuario.password = generate_password_hash(password, method='sha256')
 
-            UserRepository.update_user(usuario)  # Usar el repositorio para actualizar el usuario
+            UserRepository.update_user(usuario)
             return usuario
         except Exception as e:
             return {'error': f'Ocurrió un error al actualizar el usuario: {str(e)}'}
