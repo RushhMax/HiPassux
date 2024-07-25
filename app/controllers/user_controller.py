@@ -48,20 +48,17 @@ def actualizar_usuario(user_id):
             username = request.form.get('username')
             first_name = request.form.get('first_name')
             last_name = request.form.get('last_name')
-            birth_date = datetime.strptime(request.form.get['birth_date'], '%Y-%m-%d')
+            birth_date_str = request.form.get('birth_date')
             phone_number = request.form.get('phone_number')
             gender = request.form.get('gender')
             email = request.form.get('email')
             password = request.form.get('password')
 
-            # Convertir la fecha si está presente
-            if birth_date:
-                try:
-                    birth_date = datetime.strptime(birth_date, '%Y-%m-%d').date()
-                except ValueError:
-                    return render_template('actualizar_perfil.html', error='Formato de fecha inválido.', user_id=user_id)
+            try:
+                birth_date = datetime.strptime(birth_date_str, '%Y-%m-%d').date()
+            except (ValueError, TypeError):
+                return render_template('actualizar_perfil.html', error='Formato de fecha inválido.', user_id=user_id)
 
-            # Llamar al servicio para actualizar el usuario
             result = UserService.update_user(
                 user_id=user_id,
                 username=username,
@@ -74,15 +71,14 @@ def actualizar_usuario(user_id):
                 password=password
             )
 
-            if 'error' in result:
+            if isinstance(result, dict) and 'error' in result:
                 return render_template('actualizar_perfil.html', error=result['error'], user_id=user_id)
 
             return redirect(url_for('user.get_users'))
 
         except Exception as e:
             return render_template('actualizar_perfil.html', error=f'Ocurrió un error: {e}', user_id=user_id)
-    
-    # Si es GET, mostrar el formulario con los datos del usuario
+
     user = UserService.get_user_by_id(user_id)
     if user:
         return render_template('actualizar_perfil.html', user=user)
