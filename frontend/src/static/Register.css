@@ -1,0 +1,252 @@
+/* styles.css */
+html {
+  height: 100%;
+  width: 100%;
+  background-color: white;
+}
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle, #e0f7fa, #b2ebf2, #80deea);
+}
+
+header {
+  background-color: white;
+  border-bottom: 1px solid #ccc;
+  position:fixed;
+  width: 100%;
+  top:0;
+  z-index:1000;
+}
+
+header h1 {
+  font-size: 40px;
+  font-weight: bold;
+  background: url('../static/img/montañas.jpg') no-repeat;
+  background-size: cover;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+header .login-form {
+  display: flex;
+  align-items: center;
+}
+
+header .login-form input {
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+header .login-btn {
+  background-color: #e0f7fa;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  color: #00796b;
+  font-weight: bold;
+}
+main {
+  margin-top: 100px;
+}
+main .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 4%;
+  
+}
+
+.left img {
+  width: 100%;
+  height: auto;
+  margin-top: 100px;
+  margin-left: 50px;
+}
+.passux-tittle {
+  font-size: 40px;
+  font-weight: bold;
+  background: url('../static/img/montañas.jpg') no-repeat;
+  background-size: cover;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.content-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 50px;
+}
+.right {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-width: 300px;
+  max-width: 400px;
+}
+
+.right h2 {
+  margin-top: 0;
+}
+
+.right form {
+  display: flex;
+  flex-direction: column;
+}
+
+.right label {
+  margin-top: 10px;
+}
+
+.right input {
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.right button {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #e0f7fa;
+  border: none;
+  border-radius: 5px;
+  color: #00796b;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+footer {
+  background-color: white;
+  border-top: 15px solid white;
+  padding: 20px 0;
+  
+}
+
+footer .container {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap:10%;
+}
+
+footer .links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 20px;
+}
+
+footer .links div {
+  margin-right: 40px;
+  min-width: 150px;
+}
+
+footer .links h3 {
+  margin-top: 0;
+}
+
+footer .links ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+footer .links ul li {
+  margin-top: 5px;
+}
+
+footer .links ul li a {
+  text-decoration: none;
+  color: #00796b;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  header .container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  header .login-form {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  header .login-form input {
+    width: calc(100% - 20px);
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  header .login-btn {
+    width: 100%;
+  }
+
+  main .container {
+    flex-direction: column;
+  }
+
+  .left,
+  .right {
+    width: 100%;
+    max-width: none;
+  }
+
+  footer .container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  footer .links {
+    flex-direction: column;
+  }
+
+  footer .links div {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 18px;
+  }
+
+  header .login-form input,
+  header .login-btn {
+    padding: 5px;
+    font-size: 14px;
+  }
+
+  .right h2 {
+    font-size: 18px;
+  }
+
+  .right input,
+  .right button {
+    padding: 5px;
+    font-size: 14px;
+  }
+}
