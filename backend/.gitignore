@@ -1,0 +1,17 @@
+# Ignorar el entorno virtual
+/backend/venv/
+
+# Ignorar los archivos de caché
+/backend/__pycache__/
+
+# Ignorar archivos de configuración de entorno
+/backend/.env
+
+# Ignorar archivos de configuración específicos
+/backend/app/config.py
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+venv/
