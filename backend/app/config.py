@@ -5,7 +5,6 @@ import os
 load_dotenv()
 
 class Config:
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'mysql+pymysql://root:PASSWORD@localhost/Passux') #mysql://username:password@host:port/database_name
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'mysql+pymysql://fernando:your_password@localhost/RedSocial') #mysql://username:password@host:port/database_name
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-    DEBUG = True
+    DEBUG= True
