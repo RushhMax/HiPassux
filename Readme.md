@@ -268,7 +268,80 @@ Las contribuciones son bienvenidas. Por favor, sigue los siguientes pasos para c
  - UserRepository: Podemos agregar nuevos métodos de consulta sin modificar el código existente, simplemente extendiendo la clase.
 UserService: Podemos añadir nuevas funcionalidades o servicios relacionados con usuarios sin cambiar los métodos existentes. Si necesitas algo nuevo
 solo extendemos la clase con otras funciones.
- 
+ ### Laboratorio 11: Estilos de Programación:
+ ### Restful:
+ - Este estilo se basa en la arquitectura REST , que utiliza métodos HTTP para manipular recursos en la web. En el codigo, los endpoints RESTful permiten realizar operaciones CRUD sobre las solicitudes de amistad.
+    ```python
+        @bp.route('/friend_requests', methods=['GET'])
+        def get_friend_requests():
+            friend_requests = FriendRequestService.get_all_friend_requests()
+            return render_template('friend_requests.html', friend_requests=friend_requests)
+
+        @bp.route('/friend_requests/send', methods=['POST'])
+        def send_friend_request():
+            sender_id = request.form.get('sender_id')
+            receiver_id = request.form.get('receiver_id')
+            result = FriendRequestService.send_friend_request(sender_id, receiver_id)
+            return redirect(url_for('friend_request.get_friend_requests', message=result))
+
+        @bp.route('/friend_requests/respond/<int:request_id>', methods=['POST'])
+        def respond_to_friend_request(request_id):
+            action = request.form.get('action')
+            result = FriendRequestService.respond_to_friend_request(request_id, action)
+            return redirect(url_for('friend_request.get_friend_requests', message=result)) 
+    ```
+  ### Error/Exception Handling:
+  - Maneja los errores y excepciones para asegurar que el sistema sea robusto y pueda recuperarse de fallos. Esto incluye manejar errores en la lógica de negocio y en las interacciones con la base de datos.
+    ```python
+    @bp.route('/friend_requests/send', methods=['POST'])
+    def send_friend_request():
+        try:
+            sender_id = request.form.get('sender_id')
+            receiver_id = request.form.get('receiver_id')
+            result = FriendRequestService.send_friend_request(sender_id, receiver_id)
+        except SQLAlchemyError as e:
+            return jsonify({'error': str(e)}), 500
+        return redirect(url_for('friend_request.get_friend_requests', message=result))    
+    
+    ```
+
+
+  ### Pipeline:
+  - En este estilo, los datos se procesan a través de una serie de transformaciones o pasos secuenciales. Se aplica en el procesamiento de solicitudes de amistad, donde los datos se pasan a través de varias etapas antes de ser almacenados o utilizados.
+    ```python
+        class FriendRequestService:
+
+    @staticmethod
+    def send_friend_request(sender_id, receiver_id):
+        if sender_id == receiver_id:
+            return "No puedes enviarte una solicitud a ti mismo."
+        
+        existing_request = FriendRequestRepository.get_by_sender_and_receiver(sender_id, receiver_id)
+        if existing_request:
+            return "Ya has enviado una solicitud a este usuario."
+
+        new_request = FriendRequest(sender_id=sender_id, receiver_id=receiver_id)
+        FriendRequestRepository.add(new_request)
+        return "Solicitud enviada con éxito."
+
+    @staticmethod
+    def respond_to_friend_request(request_id, action):
+        request = FriendRequestRepository.get_by_id(request_id)
+        if not request:
+            return "Solicitud no encontrada."
+        
+        if action == 'accept':
+            request.status = RequestStatus.ACCEPTED
+        elif action == 'reject':
+            request.status = RequestStatus.REJECTED
+        else:
+            return "Acción inválida."
+
+        FriendRequestRepository.update(request)
+        return "Solicitud actualizada con éxito."
+    
+    ```
+
 ## Licencia
 
 Este proyecto está licenciado bajo la [Licencia MIT](LICENSE).
