@@ -482,3 +482,149 @@ class UserService:
         )
         self.UserRepository.add_user(new_user)
 ```
+
+
+
+# LABORATORIO 11
+
+## Restful
+
+El estilo RESTful se aplica en la implementación de los endpoints de la API para gestionar los usuarios. Los métodos HTTP (GET, POST, PUT, DELETE) se utilizan para realizar operaciones CRUD sobre los recursos de usuario.
+
+```@user_api.route('/', methods=['GET'])
+def get_users():
+    users = UserService.get_all_users()
+    return jsonify([user.to_dict() for user in users])
+
+@user_api.route('/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    user = UserService.get_user_by_id(user_id)
+    if user:
+        return jsonify(user.to_dict())
+    return jsonify({'error': 'User not found'}), 404
+
+@user_api.route('/', methods=['POST'])
+def create_user():
+    data = request.json
+    new_user = UserService.create_user(
+        data['username'],
+        data['first_name'],
+        data['last_name'],
+        data['birth_date'],
+        data['phone_number'],
+        data['gender'],
+        data['email'],
+        data['password']
+    )
+    return jsonify(new_user.to_dict()), 201
+
+@user_api.route('/<int:user_id>', methods=['PUT'])
+def update_user(user_id):
+    data = request.json
+    updated_user = UserService.update_user(user_id, data)
+    if updated_user:
+        return jsonify(updated_user.to_dict())
+    return jsonify({'error': 'User not found'}), 404
+
+@user_api.route('/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    success = UserService.delete_user(user_id)
+    if success:
+        return jsonify({'message': 'User deleted successfully'})
+    return jsonify({'error': 'User not found'}), 404
+
+@user_api.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+    
+    user = UserService.authenticate(username, password)
+    
+    if user:
+        access_token = create_access_token(identity=user.user_id)
+        return jsonify(access_token=access_token), 200
+    else:
+        return jsonify({'error': 'Invalid username or password'}), 401
+
+```
+## Error/Exception Handling
+
+El manejo de errores y excepciones se asegura de que el sistema sea robusto y pueda recuperarse de fallos. Se incluye manejo de errores en las interacciones con la base de datos y la lógica de negocio.
+
+
+```@user_api.route('/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    try:
+        user = UserService.get_user_by_id(user_id)
+        if user:
+            return jsonify(user.to_dict())
+        return jsonify({'error': 'User not found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@user_api.route('/login', methods=['POST'])
+def login():
+    try:
+        data = request.json
+        username = data.get('username')
+        password = data.get('password')
+        
+        user = UserService.authenticate(username, password)
+        
+        if user:
+            access_token = create_access_token(identity=user.user_id)
+            return jsonify(access_token=access_token), 200
+        else:
+            return jsonify({'error': 'Invalid username or password'}), 401
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+```
+
+## Pipeline
+
+En este estilo, los datos se procesan a través de una serie de transformaciones o pasos secuenciales. Aquí se aplica en la creación y actualización de usuarios, donde los datos pasan a través de varias etapas antes de ser almacenados o utilizados.
+
+```class UserService:
+
+    @staticmethod
+    def create_user(username, first_name, last_name, birth_date, phone_number, gender, email, password):
+        if UserService._username_exists(username):
+            return "Username already taken."
+        
+        new_user = User(
+            username=username,
+            first_name=first_name,
+            last_name=last_name,
+            birth_date=birth_date,
+            phone_number=phone_number,
+            gender=gender,
+            email=email,
+            password=password
+        )
+        UserRepository.add(new_user)
+        return new_user
+
+    @staticmethod
+    def update_user(user_id, data):
+        user = UserRepository.get_user_by_id(user_id)
+        if user:
+            for key, value in data.items():
+                if hasattr(user, key):
+                    setattr(user, key, value)
+            UserRepository.update(user)
+            return user
+        return None
+
+    @staticmethod
+    def authenticate(username, password):
+        user = UserRepository.get_user_by_username(username)
+        if user and user.password == password:
+            return user
+        return None
+
+    @staticmethod
+    def _username_exists(username):
+        return UserRepository.get_user_by_username(username) is not None
+```
