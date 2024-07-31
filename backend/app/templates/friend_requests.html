@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friend Requests</title>
+</head>
+<body>
+    <h1>Friend Requests</h1>
+
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+    
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+
+    <form action="{{ url_for('friend_request.send_friend_request') }}" method="post">
+        <input type="text" name="sender_id" placeholder="Your ID" required>
+        <input type="text" name="receiver_id" placeholder="Receiver's ID" required>
+        <button type="submit">Send Friend Request</button>
+    </form>
+
+    <h2>All Friend Requests</h2>
+    <ul>
+        {% for request in friend_requests %}
+            <li>
+                Request from User {{ request.sender_id }} to User {{ request.receiver_id }} - Status: {{ request.status }}
+                <form action="{{ url_for('friend_request.respond_to_friend_request', request_id=request.id) }}" method="post" style="display:inline;">
+                    <button type="submit" name="action" value="accept">Accept</button>
+                    <button type="submit" name="action" value="reject">Reject</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,4 +1,4 @@
-from app.controllers import user_controller, post_controllers, reaction_controllers, message_controllers, comment_controllers
+from app.controllers import user_controller, post_controllers, reaction_controllers, message_controllers, comment_controllers,friends_controllers
 
 def init_routes(app):
     app.register_blueprint(user_controller.bp)
@@ -6,4 +6,5 @@ def init_routes(app):
     app.register_blueprint(reaction_controllers.bp)
     app.register_blueprint(message_controllers.bp)
     app.register_blueprint(comment_controllers.bp)
+    app.register_blueprint(friends_controllers.bp)
     # Test route Blueprint

@@ -3,7 +3,7 @@
 
 # Ignorar los archivos de caché
 /backend/__pycache__/
-
+/backend/app/__pycache__/
 # Ignorar archivos de configuración de entorno
 /backend/.env
 

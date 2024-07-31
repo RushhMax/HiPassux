@@ -1,13 +1,17 @@
-from flask import Blueprint, render_template, request , redirect, url_for
+from flask import Blueprint, render_template, request , redirect, url_for, flash
 from app.domain.services.user_service import UserService
 from datetime import datetime
+from werkzeug.security import check_password_hash
 bp = Blueprint('user', __name__)
 
 @bp.route('/users', methods=['GET'])
 def get_users():
     users = UserService.get_all_users()
     return render_template('users.html', users=users)
-
+def is_valid_gmail(email):
+    import re
+    pattern = r'^[a-zA-Z0-9._%+-]+@gmail\.com$'
+    return re.match(pattern, email) is not None
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -31,7 +35,6 @@ def register():
                 email=email,
                 password=password
             )
-
             return redirect(url_for('user.get_users'))  # Redirige después de crear el usuario
 
         except Exception as e:
@@ -84,3 +87,15 @@ def actualizar_usuario(user_id):
         return render_template('actualizar_perfil.html', user=user)
     else:
         return render_template('actualizar_perfil.html', error='Usuario no encontrado.', user_id=user_id)
+@bp.route('/login', methods=['GET', 'POST'])
+def login():
+    message = None
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user = UserService.authenticate_user(username, password)
+        if user:
+            message = '¡Felicidades! Has iniciado sesión correctamente.'
+        else:
+            message = 'Nombre de usuario o contraseña incorrectos.'
+    return render_template('login.html', message=message)

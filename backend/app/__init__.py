@@ -10,7 +10,7 @@ from app.domain.entities.user import db  #importante tienes que poner el directo
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-
+    app.secret_key = 'mi_clave_secreta_super_segura'
     db.init_app(app)
     migrate.init_app(app, db)
     
