@@ -1,7 +1,9 @@
 from flask import Blueprint, jsonify, request
 from app.domain.services.user_service import UserService
+from flask_jwt_extended import create_access_token
 
 user_api = Blueprint('user_api', 'user_api', url_prefix='/api/users')
+
 
 error_User = 'User not found'
 
@@ -21,6 +23,7 @@ def get_user(user_id):
 def create_user():
     data = request.json
     new_user = UserService.create_user(
+        data['username'],
         data['first_name'],
         data['last_name'],
         data['birth_date'],
@@ -31,6 +34,8 @@ def create_user():
     )
     return jsonify(new_user.to_dict()), 201
 
+
+
 @user_api.route('/<int:user_id>', methods=['PUT'])
 def update_user(user_id):
     data = request.json
@@ -39,9 +44,28 @@ def update_user(user_id):
         return jsonify(updated_user.to_dict())
     return jsonify({'error': error_User}), 404
 
+
+
 @user_api.route('/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):
     success = UserService.delete_user(user_id)
     if success:
         return jsonify({'message': 'User deleted successfully'})
     return jsonify({'error': error_User}), 404
+
+
+@user_api.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+    
+    # Verifica las credenciales del usuario
+    user = UserService.authenticate(username, password)
+    
+    if user:
+        # Genera un token JWT
+        access_token = create_access_token(identity=user.user_id)
+        return jsonify(access_token=access_token), 200
+    else:
+        return jsonify({'error': 'Invalid username or password'}), 401
