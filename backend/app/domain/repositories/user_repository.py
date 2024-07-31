@@ -13,3 +13,11 @@ class UserRepository:
         db.session.add(user)
         db.session.commit()
         # Añade un usuario a la base de datos y confirma la transacción.
+    
+    @staticmethod
+    def update_user(user):
+        db.session.commit()
+    
+    @staticmethod
+    def get_user_by_id(user_id):
+        return User.query.get(user_id)

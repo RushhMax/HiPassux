@@ -26,4 +26,4 @@ class User(db.Model):
             'phone_number': self.phone_number,
             'gender': self.gender,
             'email': self.email
-        }    
+        }
