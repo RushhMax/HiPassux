@@ -8,6 +8,10 @@ class UserService:
         return UserRepository.get_all_users()
 
     @staticmethod
+    def get_user_by_id(user_id):
+        return UserRepository.get_user_by_id(user_id)
+
+    @staticmethod
     def create_user(username, first_name, last_name, birth_date, phone_number, gender, email, password):
         new_user = User(
             username=username,
@@ -53,6 +57,4 @@ class UserService:
         except Exception as e:
             return {'error': f'Ocurrió un error al actualizar el usuario: {str(e)}'}
 
-    @staticmethod
-    def get_user_by_id(user_id):
-        return UserRepository.get_user_by_id(user_id)
+

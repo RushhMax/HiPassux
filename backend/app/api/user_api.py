@@ -10,14 +10,14 @@ def get_users():
     users = UserService.get_all_users()
     return jsonify([user.to_dict() for user in users])
 
-@user_api.route('/<int:user_id>', methods=['GET'])
+@user_api.route('/id/<int:user_id>', methods=['GET'])
 def get_user(user_id):
     user = UserService.get_user_by_id(user_id)
     if user:
         return jsonify(user.to_dict())
     return jsonify({'error': error_User}), 404
 
-@user_api.route('/', methods=['POST'])
+@user_api.route('/register', methods=['POST'])
 def create_user():
     data = request.json
     new_user = UserService.create_user( #username, first_name, last_name, birth_date, phone_number, gender, email, password):
