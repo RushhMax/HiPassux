@@ -1,4 +1,4 @@
-from app.domain.entities.friends import FriendRequest, db , RequestStatus
+from app.domain.entities.friends import FriendRequest, RequestStatus ,db
 class FriendRequestRepository:
     
     @staticmethod
