@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from app.extensions import db
-from app.models import FriendRequest, RequestStatus
+from app.domain.services.friends_service import FriendRequest, RequestStatus
 
 friend_request_api = Blueprint('friend_request_api', __name__, url_prefix='/api/friend_requests')
 

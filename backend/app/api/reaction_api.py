@@ -3,8 +3,11 @@ from app.domain.services.reaction_service import ReactionService
 
 reaction_api = Blueprint('reaction_api', 'reaction_api', url_prefix='/api/reactions')
 
+<<<<<<< HEAD
 error_reaction = 'Reaction not found'
 
+=======
+>>>>>>> origin/desarrollo
 @reaction_api.route('/', methods=['GET'])
 def get_reactions():
     reactions = ReactionService.get_all_reactions()
@@ -15,7 +18,11 @@ def get_reaction(reaction_id):
     reaction = ReactionService.get_reaction_by_id(reaction_id)
     if reaction:
         return jsonify(reaction.to_dict())
+<<<<<<< HEAD
     return jsonify({'error': error_reaction}), 404
+=======
+    return jsonify({'error': 'Reaction not found'}), 404
+>>>>>>> origin/desarrollo
 
 @reaction_api.route('/', methods=['POST'])
 def create_reaction():
@@ -29,11 +36,19 @@ def update_reaction(reaction_id):
     updated_reaction = ReactionService.update_reaction(reaction_id, data)
     if updated_reaction:
         return jsonify(updated_reaction.to_dict())
+<<<<<<< HEAD
     return jsonify({'error': error_reaction}), 404
+=======
+    return jsonify({'error': 'Reaction not found'}), 404
+>>>>>>> origin/desarrollo
 
 @reaction_api.route('/<int:reaction_id>', methods=['DELETE'])
 def delete_reaction(reaction_id):
     success = ReactionService.delete_reaction(reaction_id)
     if success:
         return jsonify({'message': 'Reaction deleted successfully'})
+<<<<<<< HEAD
     return jsonify({'error': error_reaction}), 404
+=======
+    return jsonify({'error': 'Reaction not found'}), 404
+>>>>>>> origin/desarrollo
