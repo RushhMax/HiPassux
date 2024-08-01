@@ -1,15 +1,8 @@
-# PASSUX
-
-## Índice
+# Índice
 
 1. [Descripción](#descripción)
-2. [Estructura del Proyecto](#estructura-del-proyecto)
-3. [Instalación](#instalación)
-4. [Uso](#uso)
-5. [Estructura del Código](#estructura-del-código)
-6. [Contribuciones](#contribuciones)
-7. [Licencia](#licencia)
-8. [Buenas Prácticas LAB 09](#buenas-prácticas-lab-09)
+2. [Estructura del Proyecto - BACKEND](#estructura-del-proyecto---backend)
+3. [CLEAN CODE](#clean-code)
    - [Nombres de Variables y Funciones](#nombres-de-variables-y-funciones)
    - [Nombres de Clases](#nombres-de-clases)
    - [Nombres de Constantes](#nombres-de-constantes)
@@ -17,26 +10,48 @@
    - [Líneas en Blanco](#líneas-en-blanco)
    - [Manejo de Errores](#manejo-de-errores)
    - [Uso de F-Strings](#uso-de-f-strings)
-9. [Code Smells](#code-smells)
-   - [Código Repetido](#código-repetido)
-   - [Funciones Grandes](#funciones-grandes)
-10. [Bugs](#bugs)
-   - [Errores de Referencia](#errores-de-referencia)
-11. [Vulnerabilidades](#vulnerabilidades)
-12. [Buenas Prácticas LAB 010 SOLID](#buenas-prácticas-lab-010-solid)
-    - [Single Responsibility Principle (SRP)](#single-responsibility-principle-srp)
-    - [Open/Closed Principle (OCP)](#openclosed-principle-ocp)
-    - [Liskov Substitution Principle (LSP)](#liskov-substitution-principle-lsp)
-    - [Dependency Inversion Principle (DIP)](#dependency-inversion-principle-dip)
-
+   - [Code Smells](#code-smells)
+     - [Código Repetido](#código-repetido)
+     - [Funciones Grandes](#funciones-grandes)
+   - [Bugs](#bugs)
+     - [Errores de Referencia](#errores-de-referencia)
+   - [Vulnerabilidades](#vulnerabilidades)
+4. [Buenas Prácticas SOLID](#buenas-prácticas-solid)
+   - [Single Responsibility Principle (SRP)](#single-responsibility-principle-srp)
+   - [Open/Closed Principle (OCP)](#openclosed-principle-ocp)
+   - [Liskov Substitution Principle (LSP)](#liskov-substitution-principle-lsp)
+   - [Dependency Inversion Principle (DIP)](#dependency-inversion-principle-dip)
+5. [Estilos de Programación](#estilos-de-programación)
+   - [RESTful](#restful)
+   - [Error/Exception Handling](#errorexception-handling)
+   - [Pipeline](#pipeline)
+6. [Instalación](#instalación)
+   - [Clonar el Repositorio](#clonar-el-repositorio)
+   - [Crear y Activar un Entorno Virtual](#crear-y-activar-un-entorno-virtual)
+   - [Instalar Dependencias](#instalar-dependencias)
+   - [Configurar Variables de Entorno](#configurar-variables-de-entorno)
+   - [Inicializar la Base de Datos](#inicializar-la-base-de-datos)
+7. [Uso](#uso)
+   - [Ejecutar la Aplicación](#ejecutar-la-aplicación)
+   - [Exportar la Aplicación Flask](#exportar-la-aplicación-flask)
+8. [Estructura del Código](#estructura-del-código)
+   - [Controladores](#controladores-1)
+   - [Dominio](#dominio-1)
+   - [Plantillas](#plantillas)
+   - [Archivos Estáticos](#archivos-estáticos)
+   - [ViewModels](#viewmodels)
+   - [Pruebas](#pruebas)
+   - [Migraciones](#migraciones)
+9. [Contribuciones](#contribuciones)
+10. [Licencia](#licencia)
 
 ## Descripción
 
 Esta es una aplicación web desarrollada con Flask, utilizando un enfoque de **Domain-Driven Design (DDD)** y **Model-View-Controller (MVC)**. La aplicación está configurada para trabajar con una base de datos MySQL utilizando `PyMySQL` y `Flask-Migrate` para manejar las migraciones.
 
-## Estructura del Proyecto
+## Estructura del Proyecto - BACKEND
     ```
-    my_flask_app/
+    HiPaasux/
     │
     ├── app/
     │   ├── __init__.py
@@ -102,85 +117,9 @@ Esta es una aplicación web desarrollada con Flask, utilizando un enfoque de **D
     ```
 
 
-## Instalación
+# CLEAN CODE
 
-1. **Clona el repositorio**:
-
-    ```bash
-    git clone <url-del-repositorio>
-    ```
-
-2. **Crea y activa un entorno virtual**:
-
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate
-    ```
-
-3. **Instala las dependencias**:
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4. **Configura las variables de entorno**:
-
-    Crea un archivo `.env` en la raíz del proyecto con el siguiente contenido:
-
-    ```plaintext
-    DATABASE_URL=mysql+pymysql://root:PASSWORD@localhost/DATABASENAME!
-    ```
-
-5. **Inicializa la base de datos**:
-    Necesario haber creado la DATABASE, las relaciones se crean por medio de estos comandos!
-
-    ```bash
-    flask db init
-    flask db migrate -m "Initial migration."
-    flask db upgrade
-    ```
-
-## Uso
-
-1. **Ejecuta la aplicación**:
-
-    ```bash
-    flask run
-    ```
-
-2. **Exporta la aplicación Flask (si es necesario)**:
-
-    ```bash
-    export FLASK_APP=run.py
-    ```
-
-## Estructura del Código
-
-- **`app/controllers/`**: Controladores que manejan la lógica de las rutas.
-- **`app/domain/`**: Dominio de la aplicación, incluyendo entidades, repositorios y servicios.
-- **`app/templates/`**: Plantillas HTML para renderizar vistas.
-- **`app/static/`**: Archivos estáticos como CSS, JavaScript e imágenes.
-- **`app/viewmodels/`**: ViewModels para la lógica de presentación.
-- **`tests/`**: Pruebas unitarias y de integración.
-- **`migrations/`**: Archivos de migración de la base de datos.
-
-## Contribuciones
-
-Las contribuciones son bienvenidas. Por favor, sigue los siguientes pasos para contribuir:
-
-1. Haz un fork del repositorio.
-2. Crea una nueva rama (`git checkout -b feature/nueva-caracteristica`).
-3. Realiza tus cambios y haz commit (`git commit -am 'Añadida nueva característica'`).
-4. Empuja tus cambios (`git push origin feature/nueva-caracteristica`).
-5. Abre un Pull Request.
-
-## Licencia
-
-Este proyecto está licenciado bajo la [Licencia MIT](LICENSE).
-
-## Buenas Prácticas LAB 09
-
-### Nombres de Variables y Funciones:
+## Nombres de Variables y Funciones:
 
 Utiliza snake_case para variables y nombres de funciones:
 
@@ -198,7 +137,7 @@ def register():
             email = request.form['email']
             password = request.form['password']
 ```
-### Nombres de Clases:
+## Nombres de Clases:
 
 Utiliza CamelCase para nombres de clases.
 
@@ -209,7 +148,7 @@ class User(db.Model):
     __tablename__ = 'USERS'  # Ensure this matches your table name
 ```
 
-### Nombres de Constantes:
+## Nombres de Constantes:
 
 Utiliza MAYÚSCULAS_CON_GUIONES_BAJOS para constantes
 
@@ -221,7 +160,7 @@ class Config:
     DEBUG = True
 ```
 
-### Indentación
+## Indentación
 
 Usa 4 espacios por nivel de indentación (no uses tabuladores).
 
@@ -239,7 +178,7 @@ def to_dict(self):
     }    
 ```
 
-###  Líneas en Blanco
+##  Líneas en Blanco
 
 Utiliza líneas en blanco para separar funciones y clases, así como bloques de código dentro de funciones.
 
@@ -260,7 +199,7 @@ def to_dict(self):
     }    
 ```
 
-### Manejo de Errores
+## Manejo de Errores
 
 Usa bloques try-except para manejar excepciones y proporciona mensajes de error útiles.
 
@@ -273,7 +212,7 @@ if __name__ == '__main__':
         print(f"Error: {e}")
 ```
 
-### Uso de F-Strings
+## Uso de F-Strings
 
 Utiliza f-strings (en Python 3.6 y posteriores) para la interpolación de cadenas.
 
@@ -371,7 +310,7 @@ class UserRepository:
         db.session.commit()
 ```
 
-# Buenas Prácticas LAB 010 SOLID
+# Buenas Prácticas SOLID
 
 ## Single Responsibility Principle (SRP)
 
@@ -484,13 +423,13 @@ class UserService:
 ```
 
 
-# LABORATORIO 11
+# ESTILOS DE PROGRAMACIÓN
 
 ## Restful
 
 El estilo RESTful se aplica en la implementación de los endpoints de la API para gestionar los usuarios. Los métodos HTTP (GET, POST, PUT, DELETE) se utilizan para realizar operaciones CRUD sobre los recursos de usuario.
 
-```@user_api.route('/', methods=['GET'])
+```python
 def get_users():
     users = UserService.get_all_users()
     return jsonify([user.to_dict() for user in users])
@@ -552,7 +491,7 @@ def login():
 El manejo de errores y excepciones se asegura de que el sistema sea robusto y pueda recuperarse de fallos. Se incluye manejo de errores en las interacciones con la base de datos y la lógica de negocio.
 
 
-```@user_api.route('/<int:user_id>', methods=['GET'])
+```python
 def get_user(user_id):
     try:
         user = UserService.get_user_by_id(user_id)
@@ -585,7 +524,8 @@ def login():
 
 En este estilo, los datos se procesan a través de una serie de transformaciones o pasos secuenciales. Aquí se aplica en la creación y actualización de usuarios, donde los datos pasan a través de varias etapas antes de ser almacenados o utilizados.
 
-```class UserService:
+```python
+class UserService:
 
     @staticmethod
     def create_user(username, first_name, last_name, birth_date, phone_number, gender, email, password):
@@ -627,3 +567,79 @@ En este estilo, los datos se procesan a través de una serie de transformaciones
     def _username_exists(username):
         return UserRepository.get_user_by_username(username) is not None
 ```
+
+## Instalación
+
+1. **Clona el repositorio**:
+
+    ```bash
+    git clone <url-del-repositorio>
+    ```
+
+2. **Crea y activa un entorno virtual**:
+
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    ```
+
+3. **Instala las dependencias**:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. **Configura las variables de entorno**:
+
+    Crea un archivo `.env` en la raíz del proyecto con el siguiente contenido:
+
+    ```plaintext
+    DATABASE_URL=mysql+pymysql://root:PASSWORD@localhost/DATABASENAME!
+    ```
+
+5. **Inicializa la base de datos**:
+    Necesario haber creado la DATABASE, las relaciones se crean por medio de estos comandos!
+
+    ```bash
+    flask db init
+    flask db migrate -m "Initial migration."
+    flask db upgrade
+    ```
+
+## Uso
+
+1. **Ejecuta la aplicación**:
+
+    ```bash
+    flask run
+    ```
+
+2. **Exporta la aplicación Flask (si es necesario)**:
+
+    ```bash
+    export FLASK_APP=run.py
+    ```
+
+## Estructura del Código
+
+- **`app/controllers/`**: Controladores que manejan la lógica de las rutas.
+- **`app/domain/`**: Dominio de la aplicación, incluyendo entidades, repositorios y servicios.
+- **`app/templates/`**: Plantillas HTML para renderizar vistas.
+- **`app/static/`**: Archivos estáticos como CSS, JavaScript e imágenes.
+- **`app/viewmodels/`**: ViewModels para la lógica de presentación.
+- **`tests/`**: Pruebas unitarias y de integración.
+- **`migrations/`**: Archivos de migración de la base de datos.
+
+## Contribuciones
+
+Las contribuciones son bienvenidas. Por favor, sigue los siguientes pasos para contribuir:
+
+1. Haz un fork del repositorio.
+2. Crea una nueva rama (`git checkout -b feature/nueva-caracteristica`).
+3. Realiza tus cambios y haz commit (`git commit -am 'Añadida nueva característica'`).
+4. Empuja tus cambios (`git push origin feature/nueva-caracteristica`).
+5. Abre un Pull Request.
+
+## Licencia
+
+Este proyecto está licenciado bajo la [Licencia MIT](LICENSE).
