@@ -1,11 +1,13 @@
 from flask import Blueprint, jsonify, request
 from app.domain.services.post_service import PostService
+from flask_cors import CORS, cross_origin
 
 post_api = Blueprint('post_api', 'post_api', url_prefix='/api/posts')
 
 error_post = 'Post not found'
 
 @post_api.route('/', methods=['GET'])
+@cross_origin()
 def get_posts():
     posts = PostService.get_all_posts()
     return jsonify([post.to_dict() for post in posts])

@@ -1,145 +1,139 @@
 /* General Styles */
-  html, body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    
-  }
- 
-  header {
-    width: 100%;
-    
-    background-color: white;
-  }
-  
-  header .container {
-    background-color: white;
-    border-bottom: 1px solid #ccc;
-    position: fixed;
-    width: 100%;
-    height: 10%;
-    top: 0;
-    z-index: 1000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    
-  }
-  
-  header .logo {
-    height: 50px;
-    padding-left: 15%;
-  }
-  
-  nav {
-    display: flex;
-    align-items: center;
-    padding-right: 5%;
-  }
-  
-  nav a, .sign-in, .register {
-    margin-left: 20px;
-    text-decoration: none;
-    color: #00796b;
-    font-weight: bold;
-  }
-  
-  .sign-in, .register {
-    background-color: #e0f7fa;
-    border: none;
-    padding: 15px 25px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 15px;
-  }
-  
-  main {
-    margin-top: 90px;
-    height: 80%;
-    background: radial-gradient(circle, #e0f7fa, #b2ebf2, #80deea);
-  }
-  
-  main .container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: flex-start;
-    padding: 50px 0;
-  }
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle, #e0f7fa, #b2ebf2, #80deea);
+}
 
-  aside img {
-    height: 600px;
-    margin-top: 12%;
-    margin-left: 15%;
-  }
+header {
+  width: 100%;
+  background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
 
-  .img-mensaje img{
-    margin-top: 30%;
-    width: 700px;
-    margin-bottom: 30%;
-    
-  }
-  
-  .main-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 5%;
+  border-bottom: 1px solid #ccc;
+}
 
-  .main-content img {
-    width: 90%;
-  }
+header .logo {
+  height: 50px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+}
+
+nav a, .sign-in, .register {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #00796b;
+  font-weight: bold;
+}
+
+.sign-in, .register {
+  background-color: #e0f7fa;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 15px;
+}
+
+main {
+  margin-top: 80px;
+  background: radial-gradient(circle, #e0f7fa, #b2ebf2, #80deea);
+  padding: 20px;
+}
+
+main .containerAnuncios {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding-top: 5%;
   
-  
+}
+
+aside img {
+  height: 600px;
+  margin-top: 12%;
+  margin-left: 15%;
+}
+
+.img-mensaje img {
+  margin-top: 30%;
+  width: 700px;
+  margin-bottom: 30%;
+}
+
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400%;
+  margin-top: 10%;
+  background-color: white;
+}
+
+.main-content img {
+  width: 90%;
+}
+
 footer {
-    background: radial-gradient(circle, #e0f7fa, #b2ebf2, #80deea);
-    border-top: 15px solid white;
-    padding: 20px 0;
-    margin-top: 10px;
-    
-  }
-  
-  footer .container {
-    display: flex;
-    justify-content: space-between;
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    gap:10%;
-  }
-  
-  footer .links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 100%;
-    font-size: 19px;
-  }
-  
-  footer .links div {
-    margin-right: 40px;
-    min-width: 150px;
-  }
-  
-  footer .links h3 {
-    margin-top: 0;
-  }
-  
-  footer .links ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  footer .links ul li {
-    margin-top: 5px;
-  }
-  
-  footer .links ul li a {
-    text-decoration: none;
-    color: #00796b;
-  }
-  
-  
+  background: radial-gradient(circle, #e0f7fa, #b2ebf2, #80deea);
+  border-top: 15px solid white;
+  padding: 20px 0;
+  margin-top: 0px;
+}
+
+footer .container {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 10%;
+}
+
+footer .links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 19px;
+}
+
+footer .links div {
+  margin-right: 40px;
+  min-width: 150px;
+}
+
+footer .links h3 {
+  margin-top: 0;
+}
+
+footer .links ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+footer .links ul li {
+  margin-top: 5px;
+}
+
+footer .links ul li a {
+  text-decoration: none;
+  color: #00796b;
+}

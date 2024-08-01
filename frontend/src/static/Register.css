@@ -16,7 +16,9 @@ header {
   border-bottom: 1px solid #ccc;
   position:fixed;
   width: 100%;
-  top:0;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index:1000;
 }
 
@@ -35,6 +37,9 @@ header .container {
   justify-content: space-between;
   align-items: center;
   width: 90%;
+  padding: 10px 5%;
+  border-bottom: 1px solid #ccc;
+
   max-width: 1200px;
   margin: 0 auto;
 }

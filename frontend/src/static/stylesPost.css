@@ -1,0 +1,72 @@
+html {
+    height: 100%;
+    width: 100%;
+    background-color: white;
+  }
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(circle, #e0f7fa, #b2ebf2, #80deea);
+  }
+
+  header {
+    width: 100%;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
+  
+  header .containerHeaderPost {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 5%;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  header .welcomePassux {
+    height: 100px;
+  }
+  .post-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5%;
+  }
+  
+  .post-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    width: 90%;
+  }
+  
+  .post-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 100%;
+    margin: 10px 0;
+  }
+  
+  .post, .comment {
+    background-color: #f0f0f0; /* Fondo gris claro */
+    border: 1px solid #ccc; /* Borde gris */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 20px;
+    margin: 10px; /* Margen alrededor del contenido */
+    width: 60%; /* Ancho del 45% del contenedor */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para un efecto de elevación */
+  }
+  
+  .post p, .comment p {
+    margin: 0; /* Elimina el margen por defecto del párrafo */
+    font-size: 16px;
+    color: #333;
+  }
+  

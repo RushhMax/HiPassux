@@ -1,11 +1,13 @@
 from flask import Blueprint, jsonify, request
 from app.domain.services.comment_service import CommentService
+from flask_cors import CORS, cross_origin
 
 comment_api = Blueprint('comment_api', 'comment_api', url_prefix='/api/comments')
 
 error_comment = 'Comment not found'
 
 @comment_api.route('/', methods=['GET'])
+@cross_origin()
 def get_comments():
     comments = CommentService.get_all_comments()
     return jsonify([comment.to_dict() for comment in comments])

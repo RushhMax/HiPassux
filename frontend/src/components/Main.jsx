@@ -37,7 +37,7 @@ export const Main = () => {
 export const MainLobby = () => {
   return (
     <main>
-      <div className="container">
+      <div className="containerAnuncios">
         <aside aria-label="anuncio" className="img-anuncio">
           <img src="src/static/img/anuncio.png" alt="img-perfil" />
         </aside>
@@ -45,7 +45,6 @@ export const MainLobby = () => {
           <img src="src/static/img/mensajePassux.png" alt="img-perfil" />
         </div>
       </div>
-      
     </main>
   );
 };
