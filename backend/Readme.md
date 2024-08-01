@@ -2,14 +2,6 @@
 
 1. [Descripción](#descripción)
 2. [Estructura del Proyecto - BACKEND](#estructura-del-proyecto---backend)
-   - [Directorio `app/`](#directorio-app)
-     - [Controladores](#controladores)
-     - [Dominio](#dominio)
-     - [Vistas](#vistas)
-     - [Otros Archivos](#otros-archivos)
-   - [Directorio `tests/`](#directorio-tests)
-   - [Directorio `migrations/`](#directorio-migrations)
-   - [Otros Archivos de la Raíz](#otros-archivos-de-la-raíz)
 3. [CLEAN CODE](#clean-code)
    - [Nombres de Variables y Funciones](#nombres-de-variables-y-funciones)
    - [Nombres de Clases](#nombres-de-clases)
@@ -125,9 +117,9 @@ Esta es una aplicación web desarrollada con Flask, utilizando un enfoque de **D
     ```
 
 
-## CLEAN CODE
+# CLEAN CODE
 
-### Nombres de Variables y Funciones:
+## Nombres de Variables y Funciones:
 
 Utiliza snake_case para variables y nombres de funciones:
 
@@ -145,7 +137,7 @@ def register():
             email = request.form['email']
             password = request.form['password']
 ```
-### Nombres de Clases:
+## Nombres de Clases:
 
 Utiliza CamelCase para nombres de clases.
 
@@ -156,7 +148,7 @@ class User(db.Model):
     __tablename__ = 'USERS'  # Ensure this matches your table name
 ```
 
-### Nombres de Constantes:
+## Nombres de Constantes:
 
 Utiliza MAYÚSCULAS_CON_GUIONES_BAJOS para constantes
 
@@ -168,7 +160,7 @@ class Config:
     DEBUG = True
 ```
 
-### Indentación
+## Indentación
 
 Usa 4 espacios por nivel de indentación (no uses tabuladores).
 
@@ -186,7 +178,7 @@ def to_dict(self):
     }    
 ```
 
-###  Líneas en Blanco
+##  Líneas en Blanco
 
 Utiliza líneas en blanco para separar funciones y clases, así como bloques de código dentro de funciones.
 
@@ -207,7 +199,7 @@ def to_dict(self):
     }    
 ```
 
-### Manejo de Errores
+## Manejo de Errores
 
 Usa bloques try-except para manejar excepciones y proporciona mensajes de error útiles.
 
@@ -220,7 +212,7 @@ if __name__ == '__main__':
         print(f"Error: {e}")
 ```
 
-### Uso de F-Strings
+## Uso de F-Strings
 
 Utiliza f-strings (en Python 3.6 y posteriores) para la interpolación de cadenas.
 
@@ -231,9 +223,9 @@ Utiliza f-strings (en Python 3.6 y posteriores) para la interpolación de cadena
         print(f"Error: {e}")
 ```
 
-### Code Smells
+## Code Smells
 
-#### Código repetido
+### Código repetido
 
 Extraer el código repetido en una función separada.
 
@@ -275,8 +267,8 @@ Funciones que hacen demasiado y tienen muchas responsabilidades.
         return app
 ```
 
-### Bugs
-#### Errores de Referencia
+## Bugs
+### Errores de Referencia
 
 Bug: Intentar acceder a una variable que no existe.
 
@@ -301,7 +293,7 @@ def create_app(config_class=Config):
     return app
 ```
 
-### Vulnerabilities
+## Vulnerabilities
 
 Ejecutar consultas SQL con entrada no sanitizada.
 
