@@ -1,14 +1,52 @@
 # Passux Red Social
 
-## Tabla de contenido
-   1. [Proposito del Proyecto](#Proposito).
-   2. [Funcionalidades: Diagrama de Casos de Uso y Prototipo](#Funcionalidades).
-   3. [Modelo de Dominio: Diagrama de Clases y Módulos](#Modelo-de-Dominio).
-   4. [Arquitectura y Patrones: Diagra de Componentes o Paquetes](#Arquitectura-y-Patrones).
-   5. [Practicas de Codificacion Limpia](#Practicas-de-Codificacion-Limpia)
-   6. [Estilos de Programacion](#Estilos-de-Programacion)
-   7. [Principios SOLID](#Principios-SOLID)
-   8. [Conceptos DDD](#Conceptos-DDD)
+# Índice
+
+1. [Descripción](#descripción)
+2. [Estructura del Proyecto - BACKEND](#estructura-del-proyecto---backend)
+3. [CLEAN CODE](#clean-code)
+   - [Nombres de Variables y Funciones](#nombres-de-variables-y-funciones)
+   - [Nombres de Clases](#nombres-de-clases)
+   - [Nombres de Constantes](#nombres-de-constantes)
+   - [Indentación](#indentación)
+   - [Líneas en Blanco](#líneas-en-blanco)
+   - [Manejo de Errores](#manejo-de-errores)
+   - [Uso de F-Strings](#uso-de-f-strings)
+   - [Code Smells](#code-smells)
+     - [Código Repetido](#código-repetido)
+     - [Funciones Grandes](#funciones-grandes)
+   - [Bugs](#bugs)
+     - [Errores de Referencia](#errores-de-referencia)
+   - [Vulnerabilidades](#vulnerabilidades)
+4. [Buenas Prácticas SOLID](#buenas-prácticas-solid)
+   - [Single Responsibility Principle (SRP)](#single-responsibility-principle-srp)
+   - [Open/Closed Principle (OCP)](#openclosed-principle-ocp)
+   - [Liskov Substitution Principle (LSP)](#liskov-substitution-principle-lsp)
+   - [Dependency Inversion Principle (DIP)](#dependency-inversion-principle-dip)
+5. [Estilos de Programación](#estilos-de-programación)
+   - [RESTful](#restful)
+   - [Error/Exception Handling](#errorexception-handling)
+   - [Pipeline](#pipeline)
+6. [Instalación](#instalación)
+   - [Clonar el Repositorio](#clonar-el-repositorio)
+   - [Crear y Activar un Entorno Virtual](#crear-y-activar-un-entorno-virtual)
+   - [Instalar Dependencias](#instalar-dependencias)
+   - [Configurar Variables de Entorno](#configurar-variables-de-entorno)
+   - [Inicializar la Base de Datos](#inicializar-la-base-de-datos)
+7. [Uso](#uso)
+   - [Ejecutar la Aplicación](#ejecutar-la-aplicación)
+   - [Exportar la Aplicación Flask](#exportar-la-aplicación-flask)
+8. [Estructura del Código](#estructura-del-código)
+   - [Controladores](#controladores-1)
+   - [Dominio](#dominio-1)
+   - [Plantillas](#plantillas)
+   - [Archivos Estáticos](#archivos-estáticos)
+   - [ViewModels](#viewmodels)
+   - [Pruebas](#pruebas)
+   - [Migraciones](#migraciones)
+9. [Contribuciones](#contribuciones)
+10. [Licencia](#licencia)
+
 
 ## Proposito: 
 La presente propuesta tiene como objetivo el desarrollo de una plataforma de Red Social que permita a los estudiantes de la Universidad Nacional de San Agust´ın comunicarse mediante mensajerıa, compartir contenido y ampliar sus opciones de interaccion social. Este proyecto busca proporcionar una herramienta eficiente y efectiva para fomentar la conectividad y la participacion activa de los estudiantes en su entorno academico y social.
@@ -20,13 +58,6 @@ Desde la perspectiva del proyecto, se presenta una red social especificamente di
 [![Diagrama-de-caso-de-uso.png](https://i.postimg.cc/gjgLmCmh/Diagrama-de-caso-de-uso.png)](https://postimg.cc/V0bkFHSs)
 
 
-		                Figura 1. Diagrama de Casos de Uso
-
-
-| Tipo de Usuario   | Administrador                          | 
-|-------------------|------------------------------------|
-| Formacion     | Desarrollador de Software y Experto en Informatica |
-| Actividades     | Control y manejo del sistema en general |
 					
 
 					Tabla 1 :Perfil de Administrador
@@ -91,1175 +122,602 @@ Bases de Datos: Representa las bases de datos en las que se almacenan los datos 
 
 Se incluye un diagrama que representa la arquitectura de componentes o paquetes del sistema. Esto ayuda a comprender la distribución y la interacción de los diferentes componentes del software.
 
-## Practicas de Codificacion Limpia
 
-### 5.1 Parte Implementada en el Proyecto
+## Descripción
 
-#### 5.1.1 Código Limpio en el Componente Auth
+Esta es una aplicación web desarrollada con Flask, utilizando un enfoque de **Domain-Driven Design (DDD)** y **Model-View-Controller (MVC)**. La aplicación está configurada para trabajar con una base de datos MySQL utilizando `PyMySQL` y `Flask-Migrate` para manejar las migraciones.
 
-Sea componente `Auth.jsx` de la carpeta `Auth`
+## Estructura del Proyecto - BACKEND
+    ```
+    HiPaasux/
+    │
+    ├── app/
+    │   ├── __init__.py
+    │   ├── controllers/
+    │   │   ├── __init__.py
+    │   │   ├── user_controller.py  # Controladores para rutas web
+    │   │   └── ... (otros controladores)
+    │   ├── api/
+    │   │   ├── __init__.py
+    │   │   ├── user_api.py  # Controladores para rutas API
+    │   │   └── ... (otros controladores de API)
+    │   ├── domain/
+    │   │   ├── __init__.py
+    │   │   ├── entities/
+    │   │   │   ├── __init__.py
+    │   │   │   ├── user.py
+    │   │   │   └── ... (otras entidades)
+    │   │   ├── repositories/
+    │   │   │   ├── __init__.py
+    │   │   │   ├── user_repository.py
+    │   │   │   └── ... (otros repositorios)
+    │   │   ├── services/
+    │   │   │   ├── __init__.py
+    │   │   │   ├── user_service.py
+    │   │   │   └── ... (otros servicios)
+    │   ├── templates/
+    │   │   ├── base.html
+    │   │   ├── index.html
+    │   │   └── ... (otras plantillas)
+    │   ├── static/
+    │   │   ├── css/
+    │   │   │   └── ... (archivos CSS)
+    │   │   ├── js/
+    │   │   │   └── ... (archivos JavaScript)
+    │   │   └── img/
+    │   │       └── ... (imágenes)
+    │   ├── viewmodels/
+    │   │   ├── __init__.py
+    │   │   ├── user_viewmodel.py
+    │   │   └── ... (otros viewmodels)
+    │   ├── config.py
+    │   ├── routes.py
+    │   ├── extensions.py
+    │   ├── api_routes.py  # Definición de rutas API
+    │
+    ├── tests/
+    │   ├── __init__.py
+    │   ├── test_user.py
+    │   ├── test_user_api.py  # Pruebas para la API
+    │   └── ... (otros tests)
+    │
+    ├── migrations/
+    │   └── ... (archivos de migración)
+    │
+    ├── venv/
+    │   └── ... (entorno virtual)
+    │
+    ├── .env
+    ├── .gitignore
+    ├── requirements.txt
+    ├── run.py
+    └── README.md
+    ```
 
-1. **Nombres descriptivos:**
-   - `handleChange`, `handleSubmit`, `resetForm`, `loading`, `confirmPass`, `isSignUp` son ejemplos de nombres descriptivos.
 
-2. **Indentación y formato:**
-   - El código en general mantiene una estructura de indentación consistente y utiliza espacios en blanco de manera efectiva.
+# CLEAN CODE
 
-3. **Comentarios claros:**
-   - Los comentarios en línea que explican qué hace cada sección de código:
+## Nombres de Variables y Funciones:
 
-```javascript
-// handle Change in input
-const handleChange = (e) => {
-  setData({ ...data, [e.target.name]: e.target.value });
-};
+Utiliza snake_case para variables y nombres de funciones:
 
-// Form Submission
-const handleSubmit = (e) => {
-  setConfirmPass(true);
-  e.preventDefault();
-  if (isSignUp) {
-    data.password === data.confirmpass
-      ? dispatch(signUp(data, navigate))
-      : setConfirmPass(false);
-  } else {
-    dispatch(logIn(data, navigate));
-  }
-};
+```python
+@bp.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        try:
+            username = request.form['username']
+            first_name = request.form['first_name']
+            last_name = request.form['last_name']
+            birth_date = datetime.strptime(request.form['birth_date'], '%Y-%m-%d')
+            phone_number = request.form.get('phone_number')
+            gender = request.form.get('gender')
+            email = request.form['email']
+            password = request.form['password']
+```
+## Nombres de Clases:
+
+Utiliza CamelCase para nombres de clases.
+
+```python
+from app.extensions import db
+
+class User(db.Model):
+    __tablename__ = 'USERS'  # Ensure this matches your table name
 ```
 
-4. **Separación de preocupaciones:**
-   - Cada función tiene una responsabilidad específica y está bien definida en su propósito, como `handleChange`, `handleSubmit`, `resetForm`, etc.
+## Nombres de Constantes:
 
-5. **Reutilización de código:**
-   - El estado `data` se utiliza para manejar los datos del formulario en lugar de repetir los campos.
+Utiliza MAYÚSCULAS_CON_GUIONES_BAJOS para constantes
 
-6. **Evitar redundancia:**
-   - La función `resetForm` restablece los datos y el estado de confirmación de contraseña.
+```python
+class Config:
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'mysql+pymysql://root:PASSWORD@localhost/Passux') #mysql://username:password@host:port/database_name
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-7. **Uso adecuado de espacios en blanco:**
-   - El código utiliza espacios en blanco para separar visualmente las secciones lógicas y mejorar la legibilidad en varias partes.
-
-8. **Uso de destructuring:**
-   - Ejemplos de destructuring en el código:
-
-```javascript
-const loading = useSelector((state) => state.authReducer.loading);
+    DEBUG = True
 ```
 
-9. **Manejo de eventos:**
-   - Los manejadores de eventos `onChange` y `onClick` se utilizan para gestionar la interacción del usuario.
+## Indentación
 
-10. **Ternarios para claridad:**
-    - Se utiliza un operador ternario para mostrar el mensaje de error de confirmación de contraseña:
+Usa 4 espacios por nivel de indentación (no uses tabuladores).
 
-```javascript
-<span
-  style={{
-    color: "red",
-    fontSize: "12px",
-    alignSelf: "flex-end",
-    marginRight: "5px",
-    display: confirmPass ? "none" : "block",
-  }}
->
-  *Confirm password is not same
-</span>
+```python
+def to_dict(self):
+    return {
+        'id': self.user_id,
+        'username': self.username,
+        'first_name': self.first_name,
+        'last_name': self.last_name,
+        'birth_date': self.birth_date.isoformat() if self.birth_date else None,
+        'phone_number': self.phone_number,
+        'gender': self.gender,
+        'email': self.email
+    }    
 ```
 
-#### 5.1.2 Código Limpio en el Componente Chat
+##  Líneas en Blanco
 
-Sea componente `Chat.jsx` de la carpeta `Chat`
+Utiliza líneas en blanco para separar funciones y clases, así como bloques de código dentro de funciones.
 
-1. **Nombres descriptivos:**
-   - `socket`, `chats`, `onlineUsers`, `currentChat`, `sendMessage`, `receivedMessage` son ejemplos de nombres descriptivos.
-
-2. **Indentación y formato:**
-   - El código mantiene una estructura de indentación consistente y utiliza espacios en blanco de manera efectiva.
-
-3. **Comentarios claros:**
-   - Los comentarios en línea explican las funciones de cada bloque de código:
-
-```jsx
-// Get the chat in chat section
-useEffect(() => {
-  const getChats = async () => {
-    try {
-      const { data } = await userChats(user._id);
-      setChats(data);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  getChats();
-}, [user._id]);
-
-// Connect to Socket.io
-useEffect(() => {
-  socket.current = io("ws://localhost:8800");
-  socket.current.emit("new-user-add", user._id);
-  socket.current.on("get-users", (users) => {
-    setOnlineUsers(users);
-  });
-}, [user]);
+```python
+def __repr__(self):
+    return f'<User {self.username}>'
+    
+def to_dict(self):
+    return {
+        'id': self.user_id,
+        'username': self.username,
+        'first_name': self.first_name,
+        'last_name': self.last_name,
+        'birth_date': self.birth_date.isoformat() if self.birth_date else None,
+        'phone_number': self.phone_number,
+        'gender': self.gender,
+        'email': self.email
+    }    
 ```
 
-4. **Separación de preocupaciones:**
-   - Las funciones `checkOnlineStatus`, `handleChatClick`, `handleSendMessage` tienen responsabilidades bien definidas.
+## Manejo de Errores
 
-5. **Reutilización de código:**
-   - La función `checkOnlineStatus` se encarga de verificar el estado en línea de un miembro del chat.
+Usa bloques try-except para manejar excepciones y proporciona mensajes de error útiles.
 
-6. **Evitar redundancia:**
-   - Se utiliza el estado `sendMessage` para evitar el envío de mensajes innecesarios al servidor.
-
-7. **Uso adecuado de espacios en blanco:**
-   - El código utiliza espacios en blanco para separar visualmente las partes de la interfaz izquierda y derecha.
-
-8. **Uso de destructuring:**
-   - Ejemplo de destructuring en el código:
-
-```jsx
-const { user } = useSelector((state) => state.authReducer.authData);
+```python
+if __name__ == '__main__':
+    app = create_app()
+    try:
+        app.run(debug=True)
+    except Exception as e:
+        print(f"Error: {e}")
 ```
 
-9. **Manejo de eventos:**
-   - Los manejadores de eventos `onClick` se utilizan para gestionar la interacción del usuario:
+## Uso de F-Strings
 
-```jsx
-<Conversation
-  data={chat}
-  currentUser={user._id}
-  online={checkOnlineStatus(chat)}
-  onClick={() => handleChatClick(chat)}
-/>
+Utiliza f-strings (en Python 3.6 y posteriores) para la interpolación de cadenas.
+
+```python
+    try:
+        app.run(debug=True)
+    except Exception as e:
+        print(f"Error: {e}")
 ```
 
-10. **Uso de `map` para generar elementos:**
-    - Se utiliza el método `map` para generar elementos en la lista de chats:
+## Code Smells
 
-```jsx
-{chats.map((chat) => (
-  <div key={chat.id} onClick={() => handleChatClick(chat)}>
-    <Conversation
-      data={chat}
-      currentUser={user._id}
-      online={checkOnlineStatus(chat)}
-    />
-  </div>
-))}
+### Código repetido
+
+Extraer el código repetido en una función separada.
+
+```python
+    @user_api.route('/', methods=['GET'])
+    def get_users():
+        users = UserService.get_all_users()
+        return jsonify([user.to_dict() for user in users])
+
+    @user_api.route('/<int:user_id>', methods=['GET'])
+    def get_user(user_id):
+        user = UserService.get_user_by_id(user_id)
+        if user:
+            return jsonify(user.to_dict())
+        return jsonify({'error': 'User not found'}), 404
+
+    @user_api.route('/', methods=['POST'])
+    def create_user():
+        data = request.json
+        new_user = UserService.create_user(data)
+        return jsonify(new_user.to_dict()), 201
 ```
 
+### Funciones Grandes
 
-#### 5.1.3 Código Limpio en el Componente Conversation
+Funciones que hacen demasiado y tienen muchas responsabilidades.
 
-Sea componente `Conversation.jsx` de la carpeta `Conversation`
+```python
+    def create_app(config_class=Config):
+        app = Flask(__name__)
+        app.config.from_object(config_class)
 
-1. **Nombres descriptivos:**
-   - `data`, `currentUser`, `online`, `userData`, `dispatch`, `getUserData` son ejemplos de nombres descriptivos.
+        db.init_app(app)
+        migrate.init_app(app, db)
+        
+        init_routes(app)
+        init_api_routes(app)
 
-2. **Indentación y formato:**
-   - El código mantiene una estructura de indentación consistente y utiliza espacios en blanco de manera efectiva.
-
-3. **Comentarios claros:**
-   - Se incluyen comentarios que explican el propósito de las secciones clave:
-
-```jsx
-// Obtener datos del usuario y mostrar en el componente de conversación
-useEffect(() => {
-  const userId = data.members.find((id) => id !== currentUser);
-  
-  const getUserData = async () => {
-    try {
-      const { data } = await getUser(userId);
-      setUserData(data);
-      dispatch({ type: "SAVE_USER", data: data });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  getUserData();
-}, []);
+        return app
 ```
 
-4. **Separacion de preocupaciones:**
-   - El efecto `useEffect` se utiliza para separar la lógica de obtención de datos del usuario y el dispatch de Redux.
+## Bugs
+### Errores de Referencia
 
-5. **Reutilización de código:**
-   - Se reutiliza el estado `userData` para manejar los datos del usuario y evitar la duplicación.
+Bug: Intentar acceder a una variable que no existe.
 
-6. **Evitar redundancia:**
-   - La imagen de perfil predeterminada se maneja de manera coherente, ya sea con una imagen personalizada o una imagen predeterminada.
 
-7. **Uso adecuado de espacios en blanco:**
-   - El código utiliza espacios en blanco para separar visualmente las secciones lógicas y mejorar la legibilidad.
+```python
+from flask import Flask, jsonify
+from app.extensions import db, migrate
+from app.routes import init_routes
+from app.config import Config
+from app.api_routes import init_api_routes
 
-8. **Uso de operador ternario:**
-   - Se utiliza un operador ternario para mostrar el estado en línea del usuario:
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
 
-```jsx
-<span style={{ color: online ? "#51e200" : "" }}>
-  {online ? "Online" : "Offline"}
-</span>
+    db.init_app(app)
+    migrate.init_app(app, db)
+        
+    init_routes(app)
+    init_api_routes(app)
+
+    return app
 ```
 
-9. **Manejo de propiedades:**
-   - Las propiedades `data`, `currentUser` y `online` se manejan de manera adecuada y se utilizan en el componente.
+## Vulnerabilities
 
-10. **Uso de destructuring:**
-    - Ejemplo de destructuring en el código:
+Ejecutar consultas SQL con entrada no sanitizada.
 
-```jsx
-const { data } = await getUser(userId);
+```python
+class UserRepository:
+
+    @staticmethod
+    def get_all_users():
+        return User.query.all()
+    
+    @staticmethod
+    def add_user(user):
+        db.session.add(user)
+        db.session.commit()
 ```
 
-11. **Envolvimiento adecuado:**
-    - El componente `Conversation` está envuelto en un fragment para evitar elementos adicionales en el DOM.
-   
+# Buenas Prácticas SOLID
 
+## Single Responsibility Principle (SRP)
 
+Principio: Una clase o módulo debe tener una sola responsabilidad o motivo para cambiar.
+Por ejemplo en nuestro proyecto estamos diviendo a User en:
 
-#### 5.1.4 Código Limpio en el Componente PostShare
+```python
+# models.py
+class User(db.Model):
+    # Definición de la entidad usuario
 
-Sea componente `PostShare.jsx` de la carpeta `PostShare`
+# services/user_service.py
+class UserService:
 
-1. **Nombres descriptivos:**
-   - `dispatch`, `user`, `loading`, `image`, `desc`, `serverPublic`, `onImageChange`, `imageRef`, `handleUpload`, `resetShare` son ejemplos de nombres descriptivos.
+    @staticmethod
+    def get_all_users():
+        return UserRepository.get_all_users()
 
-2. **Indentación y formato:**
-   - El código mantiene una estructura de indentación consistente y utiliza espacios en blanco de manera efectiva.
+# controllers/user_controller.py
+@bp.route('/users', methods=['GET'])
+def get_users():
+    users = UserService.get_all_users()
+    return render_template('users.html', users=users)
+```
+## Open/Closed Principle (OCP)
 
-3. **Comentarios claros:**
-   - Los comentarios en línea explican el propósito de algunas funciones y secciones:
+Principio: El código debe estar abierto para extensión, pero cerrado para modificación.
 
-```jsx
-// handle Image Change
-const onImageChange = (event) => {
-  if (event.target.files?.[0]) {
-    let img = event.target.files[0];
-    setImage(img);
-  }
-};
+```python
+# controllers/user_controller.py
+from flask import Blueprint, render_template, request , redirect, url_for
+from app.domain.services.user_service import UserService
+from datetime import datetime
 
-// Reset Post Share
-const resetShare = () => {
-  setImage(null);
-  desc.current.value = "";
-};
+bp = Blueprint('user', __name__)
+
+@bp.route('/users', methods=['GET'])
+def get_users():
+    # Lógica para obtener usuarios
+
+@bp.route('/register', methods=['GET', 'POST'])
+def register():
+    # Lógica para crear usuario
 ```
 
-4. **Separacion de preocupaciones:**
-   - El componente `PostShare` se encarga de la interfaz de usuario y la lógica de carga de publicaciones.
+## Liskov Substitution Principle (LSP)
 
-5. **Reutilización de código:**
-   - La lógica de reseteo se coloca en una función `resetShare` para evitar duplicación.
+Principio: Los objetos de una clase derivada deben poder reemplazar objetos de la clase base sin alterar el comportamiento esperado del programa.
 
-6. **Evitar redundancia:**
-   - Se evita la redundancia en el manejo del estado de la imagen y el campo de descripción.
+```python
+# domain/repositories/base_repository.py
+class BaseRepository:
+    def add(self, entity):
+        pass
 
-7. **Uso adecuado de espacios en blanco:**
-   - El código utiliza espacios en blanco para separar visualmente las secciones lógicas y mejorar la legibilidad.
+    def remove(self, entity):
+        pass
 
-8. **Uso de iconos:**
-   - Se utilizan iconos para representar diferentes opciones de publicación.
+# domain/repositories/user_repository.py
+from app.domain.entities.user import db, User
+from app.domain.repositories.base_repository import BaseRepository
 
-9. **Uso de eventos y acciones:**
-   - Los eventos `onClick` y `onChange` se utilizan para manejar la interacción del usuario.
+class UserRepository(BaseRepository):
 
-10. **Manejo de propiedades:**
-    - Se manejan las propiedades `user` y `loading` utilizando `useSelector`.
+    @staticmethod
+    def get_all_users():
+        return User.query.all()
+        # Obtiene todos los usuarios de la base de datos.
 
-11. **Uso de formularios:**
-    - Se utiliza un formulario para recopilar la información de la publicación.
+    def add(self, user):
+        db.session.add(user)
+        db.session.commit()
+        # Añade un usuario a la base de datos y confirma la transacción.
 
-12. **Uso de destructuring:**
-    - Ejemplo de destructuring en el código:
-
-
-#### 5.1.5 Codigo Limpio en el Componente User
-
-Sea componente `User.jsx` de la carpeta `User`
-
-1. **Nombres descriptivos:**
-   - `publicFolder`, `user`, `dispatch`, `following`, `handleFollow` son ejemplos de nombres descriptivos.
-
-2. **Indentación y formato:**
-   - El código mantiene una estructura de indentación consistente y utiliza espacios en blanco de manera efectiva.
-
-3. **Comentarios claros:**
-   - Los comentarios en línea explican el propósito de algunas secciones del código:
-
-```jsx
-// Manejo del estado de seguir / no seguir y envío a Redux
-const handleFollow = () => {
-  following
-    ? dispatch(unfollowUser(person._id, user))
-    : dispatch(followUser(person._id, user));
-  setFollowing((prev) => !prev);
-};
+    def remove(self, user):
+        db.session.delete(user)
+        db.session.commit()
+        # Elimina un usuario de la base de datos y confirma la transacción.
 ```
 
-4. **Separación de preocupaciones:**
-   - El componente `User` se encarga de mostrar información de un usuario y gestionar el seguimiento.
+## Dependency Inversion Principle (DIP)
 
-5. **Reutilización de código:**
-   - Se reutiliza la lógica para manejar el estado de "following" en la función `handleFollow`.
+Principio: Los módulos de alto nivel no deben depender de módulos de bajo nivel, sino de abstracciones.
 
-6. **Evitar redundancia:**
-   - Se evita la redundancia en la construcción de la URL de la imagen de perfil.
+```python
+from app.domain.repositories.user_repository import User,UserRepository
 
-7. **Uso adecuado de espacios en blanco:**
-   - El código utiliza espacios en blanco para separar visualmente las secciones lógicas y mejorar la legibilidad.
+class UserService:
 
-8. **Uso de propiedades y datos:**
-   - La propiedad `person` se utiliza para mostrar la información del usuario.
+    def __init__(self, user_repository):
+        self.user_repository = user_repository
 
-9. **Uso de botones y eventos:**
-   - El evento `onClick` se utiliza para manejar el seguimiento y no seguimiento del usuario.
+    @staticmethod
+    def get_all_users(self):
+        return self.UserRepository.get_all_users()
 
-10. **Uso de estados y actualización:**
-    - El estado `following` se utiliza para reflejar el estado actual de seguimiento.
-
-11. **Uso de destructuring:**
-    - Ejemplo de destructuring en el código:
-
-```jsx
-const { user } = useSelector((state) => state.authReducer.authData);
-```
-
-12. **Uso de operador ternario:**
-    - Se utiliza un operador ternario para determinar el texto del botón de seguimiento:
-
-```jsx
-{following ? "Unfollow" : "Follow"}
-```
-
-
-#### 5.1.6 Codigo Limpio en el Componente FollowersModal
-
-Sea componente `FollowersModal.jsx` de la carpeta `FollowersModal`
-
-1. **Nombres descriptivos:**
-   - `theme`, `modalOpened`, `setModalOpened` son ejemplos de nombres descriptivos.
-
-2. **Indentación y formato:**
-   - El código mantiene una estructura de indentación consistente y utiliza espacios en blanco de manera efectiva.
-
-3. **Comentarios claros:**
-   - No se necesitan comentarios adicionales ya que el código es bastante legible en sí mismo.
-
-4. **Separación de preocupaciones:**
-   - El componente `FollowersModal` se encarga de mostrar un modal con los seguidores.
-
-5. **Uso adecuado de espacios en blanco:**
-   - El código utiliza espacios en blanco para separar visualmente las secciones lógicas y mejorar la legibilidad.
-
-6. **Uso de propiedades:**
-   - Las propiedades `modalOpened` y `setModalOpened` se utilizan para manejar la apertura y cierre del modal.
-
-7. **Uso de componentes externos:**
-   - El componente utiliza `Modal` de la biblioteca Mantine para mostrar el modal.
-
-8. **Configuración de estilo y apariencia:**
-   - El modal tiene configuraciones de estilo y apariencia, como colores de superposición y tamaño.
-
-```jsx
-const theme = useMantineTheme();
-return (
-  <Modal
-    overlayColor={
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[9]
-        : theme.colors.gray[2]
-    }
-    overlayOpacity={0.55}
-    overlayBlur={3}
-    size="55%"
-    opened={modalOpened}
-    onClose={() => setModalOpened(false)}
-  >
-    <FollowersCard location='modal' />
-  </Modal>
-);
+    @staticmethod
+    def create_user(self ,username, first_name, last_name, birth_date, phone_number, gender, email, password):
+        new_user = User(
+            username=username,
+            first_name=first_name,
+            last_name=last_name,
+            birth_date=birth_date,
+            phone_number=phone_number,
+            gender=gender,
+            email=email,
+            password=password
+        )
+        self.UserRepository.add_user(new_user)
 ```
 
 
-#### 5.1.7 Codigo Limpio en el Componente InfoCard
+# ESTILOS DE PROGRAMACIÓN
 
-Sea componente `InfoCard.jsx` de la carpeta `InfoCard`
+## Restful
 
-1. **Nombres descriptivos:**
-   - `dispatch`, `params`, `modalOpened`, `profileUserId`, `profileUser`, `handleLogOut` son ejemplos de nombres descriptivos.
+El estilo RESTful se aplica en la implementación de los endpoints de la API para gestionar los usuarios. Los métodos HTTP (GET, POST, PUT, DELETE) se utilizan para realizar operaciones CRUD sobre los recursos de usuario.
 
-2. **Indentación y formato:**
-   - El código mantiene una estructura de indentación consistente y utiliza espacios en blanco de manera efectiva.
+```python
+def get_users():
+    users = UserService.get_all_users()
+    return jsonify([user.to_dict() for user in users])
 
-3. **Comentarios claros:**
-   - No se necesitan comentarios adicionales ya que el código es bastante legible en sí mismo.
+@user_api.route('/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    user = UserService.get_user_by_id(user_id)
+    if user:
+        return jsonify(user.to_dict())
+    return jsonify({'error': 'User not found'}), 404
 
-4. **Separación de preocupaciones:**
-   - El componente `InfoCard` se encarga de mostrar información de perfil y opciones de edición.
+@user_api.route('/', methods=['POST'])
+def create_user():
+    data = request.json
+    new_user = UserService.create_user(
+        data['username'],
+        data['first_name'],
+        data['last_name'],
+        data['birth_date'],
+        data['phone_number'],
+        data['gender'],
+        data['email'],
+        data['password']
+    )
+    return jsonify(new_user.to_dict()), 201
 
-5. **Uso adecuado de espacios en blanco:**
-   - El código utiliza espacios en blanco para separar visualmente las secciones lógicas y mejorar la legibilidad.
+@user_api.route('/<int:user_id>', methods=['PUT'])
+def update_user(user_id):
+    data = request.json
+    updated_user = UserService.update_user(user_id, data)
+    if updated_user:
+        return jsonify(updated_user.to_dict())
+    return jsonify({'error': 'User not found'}), 404
 
-6. **Uso de propiedades y datos:**
-   - Las propiedades `modalOpened`, `setModalOpened`, `data` se utilizan para manejar la edición del perfil.
+@user_api.route('/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    success = UserService.delete_user(user_id)
+    if success:
+        return jsonify({'message': 'User deleted successfully'})
+    return jsonify({'error': 'User not found'}), 404
 
-7. **Uso de componentes externos:**
-   - El componente utiliza `ProfileModal` para mostrar un modal de edición de perfil.
+@user_api.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+    
+    user = UserService.authenticate(username, password)
+    
+    if user:
+        access_token = create_access_token(identity=user.user_id)
+        return jsonify(access_token=access_token), 200
+    else:
+        return jsonify({'error': 'Invalid username or password'}), 401
 
-8. **Uso de enrutamiento:**
-   - Se utiliza `useParams` para obtener el parámetro de la URL.
+```
+## Error/Exception Handling
 
-9. **Uso de Redux:**
-   - Se utiliza `useDispatch` y `useSelector` para manejar acciones y el estado global.
+El manejo de errores y excepciones se asegura de que el sistema sea robusto y pueda recuperarse de fallos. Se incluye manejo de errores en las interacciones con la base de datos y la lógica de negocio.
 
-10. **Uso de eventos y acciones:**
-    - El evento `onClick` se utiliza para manejar la apertura del modal de edición y el cierre de sesión.
 
-11. **Uso de efectos y actualización:**
-    - Se utiliza `useEffect` para cargar los detalles del perfil del usuario y reaccionar a cambios.
+```python
+def get_user(user_id):
+    try:
+        user = UserService.get_user_by_id(user_id)
+        if user:
+            return jsonify(user.to_dict())
+        return jsonify({'error': 'User not found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
-12. **Uso de operador ternario:**
-    - Se utiliza un operador ternario para mostrar el icono de edición y el botón de cierre de sesión.
+@user_api.route('/login', methods=['POST'])
+def login():
+    try:
+        data = request.json
+        username = data.get('username')
+        password = data.get('password')
+        
+        user = UserService.authenticate(username, password)
+        
+        if user:
+            access_token = create_access_token(identity=user.user_id)
+            return jsonify(access_token=access_token), 200
+        else:
+            return jsonify({'error': 'Invalid username or password'}), 401
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
-```jsx
-const theme = useMantineTheme();
-return (
-  <Modal
-    overlayColor={
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[9]
-        : theme.colors.gray[2]
-    }
-    overlayOpacity={0.55}
-    overlayBlur={3}
-    size="55%"
-    opened={modalOpened}
-    onClose={() => setModalOpened(false)}
-  >
-    <ProfileModal
-      modalOpened={modalOpened}
-      setModalOpened={setModalOpened}
-      data={user}
-    />
-  </Modal>
-);
 ```
 
+## Pipeline
 
-#### 5.1.8 Codigo Limpio en el Componente LogoSearch
+En este estilo, los datos se procesan a través de una serie de transformaciones o pasos secuenciales. Aquí se aplica en la creación y actualización de usuarios, donde los datos pasan a través de varias etapas antes de ser almacenados o utilizados.
 
-Sea componente `LogoSearch.jsx` de la carpeta `LogoSearch`
+```python
+class UserService:
 
-1. **Nombres descriptivos:**
-   - `LogoSearch`, `unsalogoPrincipal` son ejemplos de nombres descriptivos.
+    @staticmethod
+    def create_user(username, first_name, last_name, birth_date, phone_number, gender, email, password):
+        if UserService._username_exists(username):
+            return "Username already taken."
+        
+        new_user = User(
+            username=username,
+            first_name=first_name,
+            last_name=last_name,
+            birth_date=birth_date,
+            phone_number=phone_number,
+            gender=gender,
+            email=email,
+            password=password
+        )
+        UserRepository.add(new_user)
+        return new_user
 
-2. **Indentación y formato:**
-   - El código mantiene una estructura de indentación consistente y utiliza espacios en blanco de manera efectiva.
+    @staticmethod
+    def update_user(user_id, data):
+        user = UserRepository.get_user_by_id(user_id)
+        if user:
+            for key, value in data.items():
+                if hasattr(user, key):
+                    setattr(user, key, value)
+            UserRepository.update(user)
+            return user
+        return None
 
-3. **Comentarios claros:**
-   - No se necesitan comentarios adicionales ya que el código es bastante legible en sí mismo.
+    @staticmethod
+    def authenticate(username, password):
+        user = UserRepository.get_user_by_username(username)
+        if user and user.password == password:
+            return user
+        return None
 
-4. **Separación de preocupaciones:**
-   - El componente `LogoSearch` se encarga de mostrar el logo y la barra de búsqueda.
-
-5. **Uso adecuado de espacios en blanco:**
-   - El código utiliza espacios en blanco para separar visualmente las secciones lógicas y mejorar la legibilidad.
-
-6. **Uso de componentes externos:**
-   - Se utilizan íconos de varias bibliotecas para mostrar íconos de búsqueda.
-
-```jsx
-const LogoSearch = () => {
-  return (
-    <div className="LogoSearch">
-      <DiJqueryUiLogo className="unsalogoPrincipal" />
-      <div className="Search">
-        <input type="text" placeholder="#Explore" />
-        <div className="">
-          <BiSolidSearchAlt2 className="unsa" />
-        </div>
-      </div>
-    </div>
-  );
-};
+    @staticmethod
+    def _username_exists(username):
+        return UserRepository.get_user_by_username(username) is not None
 ```
 
+## Instalación
 
+1. **Clona el repositorio**:
 
-#### 5.1.9 Codigo Limpio en el Componente ChatBox
+    ```bash
+    git clone <url-del-repositorio>
+    ```
 
-Sea componente `ChatBox.jsx` de la carpeta `ChatBox`
+2. **Crea y activa un entorno virtual**:
 
-1. **Nombres descriptivos:**
-   - `userData`, `messages`, `newMessage`, `handleChange`, `scroll`, `imageRef`, `handleSend` son ejemplos de nombres descriptivos.
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    ```
 
-2. **Indentación y formato:**
-   - El código mantiene una estructura de indentación consistente y utiliza espacios en blanco de manera efectiva.
+3. **Instala las dependencias**:
 
-3. **Comentarios claros:**
-   - Los comentarios en línea explican el propósito de algunas secciones del código:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-```jsx
-// Always scroll to last Message
-useEffect(() => {
-  scroll.current?.scrollIntoView({ behavior: "smooth" });
-}, [messages]);
+4. **Configura las variables de entorno**:
 
-// Receive Message from parent component
-useEffect(() => {
-  if (receivedMessage !== null && receivedMessage.chatId === chat._id) {
-    setMessages([...messages, receivedMessage]);
-  }
-}, [receivedMessage]);
-```
+    Crea un archivo `.env` en la raíz del proyecto con el siguiente contenido:
 
-4. **Separación de preocupaciones:**
-   - El componente `ChatBox` se encarga de mostrar la conversación y gestionar el envío y recepción de mensajes.
+    ```plaintext
+    DATABASE_URL=mysql+pymysql://root:PASSWORD@localhost/DATABASENAME!
+    ```
 
-5. **Reutilización de código:**
-   - La lógica de manejo de mensajes y actualización de estados se coloca en funciones separadas.
+5. **Inicializa la base de datos**:
+    Necesario haber creado la DATABASE, las relaciones se crean por medio de estos comandos!
 
-6. **Evitar redundancia:**
-   - Se evita la redundancia en la construcción de la URL de la imagen de perfil.
+    ```bash
+    flask db init
+    flask db migrate -m "Initial migration."
+    flask db upgrade
+    ```
 
-7. **Uso adecuado de espacios en blanco:**
-   - El código utiliza espacios en blanco para separar visualmente las secciones lógicas y mejorar la legibilidad.
+## Uso
 
-8. **Uso de ciclos y listas:**
-   - El componente utiliza el método `map` para iterar y mostrar cada mensaje en la conversación.
+1. **Ejecuta la aplicación**:
 
-9. **Uso de estados y actualización:**
-   - Los estados `messages` y `newMessage` se utilizan para manejar la conversación y la entrada de texto.
+    ```bash
+    flask run
+    ```
 
-10. **Uso de eventos y acciones:**
-    - Los eventos `onChange`, `onClick` se utilizan para manejar la interacción del usuario.
+2. **Exporta la aplicación Flask (si es necesario)**:
 
-11. **Uso de destructuring:**
-    - Ejemplo de destructuring en el código:
+    ```bash
+    export FLASK_APP=run.py
+    ```
 
-```jsx
-const { user } = useSelector((state) => state.authReducer.authData);
-```
+## Estructura del Código
 
-12. **Uso de componentes externos:**
-    - El componente utiliza `InputEmoji` para manejar la entrada de texto con emojis.
+- **`app/controllers/`**: Controladores que manejan la lógica de las rutas.
+- **`app/domain/`**: Dominio de la aplicación, incluyendo entidades, repositorios y servicios.
+- **`app/templates/`**: Plantillas HTML para renderizar vistas.
+- **`app/static/`**: Archivos estáticos como CSS, JavaScript e imágenes.
+- **`app/viewmodels/`**: ViewModels para la lógica de presentación.
+- **`tests/`**: Pruebas unitarias y de integración.
+- **`migrations/`**: Archivos de migración de la base de datos.
 
-13. **Manejo de referencias:**
-    - Se utilizan referencias `scroll` y `imageRef` para manejar el desplazamiento y la carga de imágenes.
+## Contribuciones
 
+Las contribuciones son bienvenidas. Por favor, sigue los siguientes pasos para contribuir:
 
-## Estilos de Programacion
+1. Haz un fork del repositorio.
+2. Crea una nueva rama (`git checkout -b feature/nueva-caracteristica`).
+3. Realiza tus cambios y haz commit (`git commit -am 'Añadida nueva característica'`).
+4. Empuja tus cambios (`git push origin feature/nueva-caracteristica`).
+5. Abre un Pull Request.
 
-### Componente `LogoSearch`
+## Licencia
 
-```jsx
-import React from "react";
-import Logo from "../../img/logo.png";
-import './LogoSearch.css'
-import {UilSearch} from '@iconscout/react-unicons';
-import {BiSolidSearchAlt2} from "react-icons/bi";
-import {DiJqueryUiLogo} from "react-icons/di";
-
-const LogoSearch = () => {
-    return (
-        <div className="LogoSearch">
-            <DiJqueryUiLogo className="unsalogoPrincipal"/>
-            {/* <img src={Logo} alt=""/> */}
-            <div className="Search">
-                <input type="text" placeholder="#Explore"/>
-                <div className="">
-                    {/* <UilSearch/> */}
-                    <BiSolidSearchAlt2 className="unsa"/>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-export default LogoSearch;
-```
-
-
-**Cookbook (Recetario):** Se utiliza el componente `DiJqueryUiLogo` y `BiSolidSearchAlt2` de bibliotecas de iconos como "recetas" predefinidas para incorporar iconos en la interfaz de usuario.
-
-**Abstract Things (Cosas Abstractas):** Utiliza componentes abstractos para representar elementos visuales, como iconos.
-
-**Code Golf (Golf de código):** El código es relativamente corto, pero no parece optimizado para minimizar su longitud al máximo.
-
-**The One (El Elegido):** El componente `LogoSearch` podría considerarse el "Elegido" para representar la parte de la interfaz de usuario que muestra el logotipo y la barra de búsqueda.
-
----
-
-### Componente `ChatBox`
-
-```jsx
-import React, { useEffect, useState, useRef } from "react";
-import { addMessage, getMessages } from "../../api/MessageRequests";
-import { getUser } from "../../api/UserRequests";
-import "./ChatBox.css";
-import { format } from "timeago.js";
-import InputEmoji from 'react-input-emoji'
-
-const ChatBox = ({ chat, currentUser, setSendMessage,  receivedMessage }) => {
-  const [userData, setUserData] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
-
-  const handleChange = (newMessage)=> {
-    setNewMessage(newMessage)
-  }
-
-  // fetching data for header
-  useEffect(() => {
-    const userId = chat?.members?.find((id) => id !== currentUser);
-    const getUserData = async () => {
-      try {
-        const { data } = await getUser(userId);
-        setUserData(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    if (chat !== null) getUserData();
-  }, [chat, currentUser]);
-
-  // fetch messages
-  useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const { data } = await getMessages(chat._id);
-        setMessages(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    if (chat !== null) fetchMessages();
-  }, [chat]);
-
-  // Always scroll to last Message
-  useEffect(()=> {
-    scroll.current?.scrollIntoView({ behavior: "smooth" });
-  },[messages])
-
-  // Send Message
-  const handleSend = async(e)=> {
-    e.preventDefault()
-    const message = {
-      senderId : currentUser,
-      text: newMessage,
-      chatId: chat._id,
-    }
-    const receiverId = chat.members.find((id)=>id!==currentUser);
-    // send message to socket server
-    setSendMessage({...message, receiverId})
-    // send message to database
-    try {
-      const { data } = await addMessage(message);
-      setMessages([...messages, data]);
-      setNewMessage("");
-    }
-    catch
-    {
-      console.log("error")
-    }
-  }
-
-  // Receive Message from parent component
-  useEffect(()=> {
-    console.log("Message Arrived: ", receivedMessage)
-    if (receivedMessage !== null && receivedMessage.chatId === chat._id) {
-      setMessages([...messages, receivedMessage]);
-    }
-  },[receivedMessage])
-
-  const scroll = useRef();
-  const imageRef = useRef();
-  return (
-    <>
-      <div className="ChatBox-container">
-        {chat ? (
-          <>
-            {/* chat-header */}
-            <div className="chat-header">
-              <div className="follower">
-                <div>
-                  <img
-                    src={
-                      userData?.profilePicture
-                        ? process.env.REACT_APP_PUBLIC_FOLDER +
-                          userData.profilePicture
-                        : process.env.REACT_APP_PUBLIC_FOLDER +
-                          "defaultProfile.png"
-                    }
-                    alt="Profile"
-                    className="followerImage"
-                    style={{ width: "50px", height: "50px" }}
-                  />
-                  <div className="name" style={{ fontSize: "0.9rem" }}>
-                    <span>
-                      {userData?.firstname} {userData?.lastname}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <hr
-                style={{
-                  width: "95%",
-                  border: "0
-
-.1px solid #ececec",
-                  marginTop: "20px",
-                }}
-              />
-            </div>
-            {/* chat-body */}
-            <div className="chat-body" >
-              {messages.map((message) => (
-                <>
-                  <div ref={scroll}
-                    className={
-                      message.senderId === currentUser
-                        ? "message own"
-                        : "message"
-                    }
-                  >
-                    <span>{message.text}</span>{" "}
-                    <span>{format(message.createdAt)}</span>
-                  </div>
-                </>
-              ))}
-            </div>
-            {/* chat-sender */}
-            <div className="chat-sender">
-              <div onClick={() => imageRef.current.click()}>+</div>
-              <InputEmoji
-                value={newMessage}
-                onChange={handleChange}
-              />
-              <div className="send-button button" onClick = {handleSend}>Send</div>
-              <input
-                type="file"
-                name=""
-                id=""
-                style={{ display: "none" }}
-                ref={imageRef}
-              />
-            </div>{" "}
-          </>
-        ) : (
-          <span className="chatbox-empty-message">
-            Tap on a chat to start conversation...
-          </span>
-        )}
-      </div>
-    </>
-  );
-};
-
-export default ChatBox;
-```
-
-**Monolith (Monolito):** El componente `ChatBox` podría considerarse un "monolito" ya que encapsula la funcionalidad completa de un cuadro de chat, incluyendo la lógica de mensajes y la interfaz de usuario.
-
-**Cookbook (Recetario):** El uso de componentes predefinidos como `InputEmoji`, la representación visual de mensajes y el manejo de eventos de cambio y clic reflejan un estilo de "recetario".
-
-**Hollywood:** El manejo de la lógica de mensajes, la obtención de usuarios y la comunicación con el servidor a través de API muestran cierta inversión de control.
-
-**Abstract Things (Cosas Abstractas):** El componente `ChatBox` encapsula la lógica para mostrar mensajes, manejar la entrada de texto y la interacción con emojis.
-
-**Infinite Mirror (Espejo Infinito):** Podría haber múltiples instancias del componente `ChatBox` en la aplicación, lo que podría reflejar una replicación similar.
-
-**Pipeline (Tubería):** La lógica de obtención de usuarios, obtención de mensajes, manejo de mensajes y renderizado de la interfaz se puede ver como pasos en un flujo de datos.
-
-**Code Golf (Golf de código):** El código es conciso y utiliza variables para mantener la claridad del flujo de lógica, sin comprometer la legibilidad.
-
-**The One (El Elegido):** El componente `ChatBox` podría considerarse el "Elegido" para coordinar y gestionar la representación visual de la conversación en el chat.
-
----
-
-### Componente `FollowersCard`
-
-```jsx
-import React, { useState } from "react";
-import "./FollowersCard.css";
-import FollowersModal from "../FollowersModal/FollowersModal";
-import { getAllUser } from "../../api/UserRequests";
-import User from "../User/User";
-import { useSelector } from "react-redux";
-const FollowersCard = ({ location }) => {
-  const [modalOpened, setModalOpened] = useState(false);
-  const [persons, setPersons] = useState([]);
-  const { user } = useSelector((state) => state.authReducer.authData);
-
-  useEffect(() => {
-    const fetchPersons = async () => {
-      const { data } = await getAllUser();
-      setPersons(data);
-    };
-    fetchPersons();
-  }, []);
-
-  return (
-    <div className="FollowersCard">
-      <h3>People you may know</h3>
-
-      {persons.map((person, id) => {
-        if (person._id !== user._id) return <User person={person} key={id} />;
-      })}
-      {!location ? (
-        <span onClick={() => setModalOpened(true)}>Show more</span>
-      ) : (
-        ""
-      )}
-
-      <FollowersModal
-        modalOpened={modalOpened}
-        setModalOpened={setModalOpened}
-      />
-    </div>
-  );
-};
-
-export default FollowersCard;
-```
-
-**Monolith (Monolito):** El componente `FollowersCard` no es necesariamente un monolito, ya que se centra en mostrar sugerencias de personas y enlaces de navegación.
-
-**Cookbook (Recetario):** El uso de componentes predefinidos como `Modal` y `FollowersCard`, así como la reutilización de patrones para manejar la apertura del modal y mostrar más sugerencias, reflejan un estilo de "recetario".
-
-**Hollywood:** El manejo de la lógica de abrir y cerrar el modal está invertido y se delega en componentes externos como `Modal` y `FollowersModal`.
-
-**Abstract Things (Cosas Abstractas):** El componente `FollowersCard` encapsula la lógica para mostrar sugerencias de personas y utiliza componentes abstractos como `Modal` y enlaces.
-
-**Pipeline (Tubería):** La lógica de apertura del modal y la obtención de sugerencias de personas se pueden ver como pasos en un flujo de datos.
-
-**Code Golf (Golf de código):** El código es conciso y utiliza componentes de biblioteca para representar sugerencias de personas y manejar la apertura del modal.
-
-**The One (El Elegido):** El componente `FollowersCard` podría considerarse el "Elegido" para coordinar y gestionar la representación de sugerencias de personas.
-
----
-
-### Componente `FollowersModal`
-
-```jsx
-import React from "react";
-import { Modal, useMantineTheme } from "@mantine/core";
-import FollowersCard from "../FollowersCard/FollowersCard";
-
-const FollowersModal = ({ modalOpened, setModalOpened }) => {
-  const theme = useMantineTheme();
-  return (
-    <Modal
-      overlayColor={
-        theme.colorScheme === "dark"
-          ? theme
-
-.colors.dark[9]
-          : theme.colors.gray[2]
-      }
-      overlayOpacity={0.55}
-      overlayBlur={3}
-      size="55%"
-      opened={modalOpened}
-      onClose={() => setModalOpened(false)}
-    >
-
-    <FollowersCard location='modal'/>
-    </Modal>
-  );
-};
-
-export default FollowersModal;
-```
-
-**Monolith (Monolito):** El componente `FollowersModal` no es un monolito en sí mismo, ya que está relacionado con la representación de modales y la interacción con la biblioteca `@mantine/core`.
-
-**Cookbook (Recetario):** Utiliza la biblioteca `@mantine/core` para establecer propiedades del modal y contiene un componente `FollowersCard` predefinido.
-
-**Hollywood:** Delega la lógica del modal y su apertura/cierre en la biblioteca `@mantine/core` y en el componente `FollowersCard`.
-
-**Abstract Things (Cosas Abstractas):** El componente `FollowersModal` encapsula la lógica para mostrar un modal y utiliza la abstracción proporcionada por la biblioteca `@mantine/core`.
-
-**Code Golf (Golf de código):** El código es conciso y utiliza propiedades predefinidas de la biblioteca `@mantine/core`.
-
-**The One (El Elegido):** El componente `FollowersModal` podría considerarse el "Elegido" para representar la interacción con modales en la aplicación.
-
----
-
-### Componente `Post`
-
-```jsx
-import React, { useState } from "react";
-import "./Post.css";
-import Comment from "../../img/comment.png";
-import Share from "../../img/share.png";
-import Heart from "../../img/like.png";
-import NotLike from "../../img/notlike.png";
-import { likePost } from "../../api/PostsRequests";
-import { useSelector } from "react-redux";
-
-const Post = ({ data }) => {
-  const { user } = useSelector((state) => state.authReducer.authData);
-  const [liked, setLiked] = useState(data.likes.includes(user._id));
-  const [likes, setLikes] = useState(data.likes.length);
-
-  const handleLike = () => {
-    likePost(data._id, user._id);
-    setLiked((prev) => !prev);
-    liked ? setLikes((prev) => prev - 1) : setLikes((prev) => prev + 1);
-  };
-
-  return (
-    <div className="Post">
-      <img
-        src={data.image ? process.env.REACT_APP_PUBLIC_FOLDER + data.image : ""}
-        alt=""
-      />
-
-      <div className="postReact">
-        <img
-          src={liked ? Heart : NotLike}
-          alt=""
-          style={{ cursor: "pointer" }}
-          onClick={handleLike}
-        />
-        <img src={Comment} alt="" />
-        <img src={Share} alt="" />
-      </div>
-
-      <span style={{ color: "var(--gray)", fontSize: "12px" }}>
-        {likes} likes
-      </span>
-      <div className="detail">
-        <span>
-          <b>{data.name} </b>
-        </span>
-        <span>{data.desc}</span>
-      </div>
-    </div>
-  );
-};
-
-export default Post;
-```
-
-**Monolith (Monolito):** El componente `Post` no es un monolito en sí mismo, ya que representa un fragmento específico de la interfaz de usuario relacionado con la representación de publicaciones y la interacción de "me gusta".
-
-**Cookbook (Recetario):** Utiliza imágenes predefinidas para representar elementos visuales como iconos y muestra la cantidad de "me gusta" y comentarios.
-
-
-**Abstract Things (Cosas Abstractas):** El componente `Post` encapsula la lógica para manejar "me gusta" y la representación visual de la publicación.
-
-**Code Golf (Golf de código):** El código es relativamente conciso y utiliza operaciones condicionales para manejar el estado de "me gusta".
-
-**The One (El Elegido):** El componente `Post` podría considerarse el "Elegido" para representar la interacción de "me gusta" y la visualización de publicaciones en la aplicación.
-
----
-
-### Componente `NavIcons`
-
-```jsx
-import React from "react";
-import { UilSetting } from "@iconscout/react-unicons";
-import { Link } from "react-router-dom";
-import "./Navicons.css";
-import { AiFillHome, AiFillBell } from 'react-icons/ai';
-import { BsFillGearFill, BsFillChat
-
-DotsFill } from 'react-icons/bs';
-
-const NavIcons = () => {
-    return (
-        <div className="navIcons">
-            <Link to="../home">
-                <AiFillHome className="unsa"/>
-            </Link>
-            <BsFillGearFill className="unsa"/>
-            <AiFillBell className="unsa"/>
-            <Link to="../chat">
-                <BsFillChatDotsFill className="unsa"/>
-            </Link>
-        </div>
-    );
-};
-
-export default NavIcons;
-```
-
-**Monolith (Monolito):** El componente `NavIcons` no es un monolito en sí mismo, ya que representa un fragmento específico de la interfaz de usuario relacionado con los íconos de navegación.
-
-**Cookbook (Recetario):** Utiliza íconos predefinidos de bibliotecas como `react-icons` y `@iconscout/react-unicons` para representar íconos de navegación.
-
-**Abstract Things (Cosas Abstractas):** El componente `NavIcons` encapsula la lógica para mostrar íconos de navegación y utiliza componentes abstractos para representar elementos visuales.
-
-**Code Golf (Golf de código):** El código es relativamente conciso y utiliza componentes de biblioteca para representar íconos de navegación.
-
-**The One (El Elegido):** El componente `NavIcons` podría considerarse el "Elegido" para representar la parte de la interfaz de usuario relacionada con los íconos de navegación en la aplicación.
-
----
-
-## Principios SOLID
-
-### 7.1 Descripción
-
-Se explica cómo se aplicaron los principios SOLID (Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion) en el desarrollo del software.
-
-### 7.2 Fragmento de Código (Evidencia)
-
-Se exhibe un fragmento de código que demuestra la adhesión a uno o varios principios SOLID.
-
-## Conceptos DDD
-
-### 8.1 Descripción
-
-Se detalla cómo se incorporaron los conceptos de Domain-Driven Design (DDD) en el diseño y desarrollo del proyecto.
-
-### 8.2 Fragmento de Código (Evidencia)
-
-Se muestra un fragmento de código que refleja la implementación de un concepto DDD específico.
-
-Este README proporciona una estructura completa para documentar tu proyecto de manera organizada y detallada. Asegúrate de llenar cada sección con la información relevante y las pruebas correspondientes para mostrar el enfoque y los logros de tu proyecto.
-
-
-
-
-
-# Para ejecutar el proyecto:
-```bash
-npm install en la carpeta server
-npm install en la carpeta socket
-npm install en la carpeta client
-npm start en la carpeta server
-npm start en la carpeta socket
-npm start en la carpeta client
-```
-
-# Documentación de Arquitectura de Software
-
-## 1. Introducción
-
-### 1.1 Propósito
-
-El propósito de este documento es proporcionar una descripción detallada de la arquitectura de software de nuestro sistema de red social. Este documento está dirigido a los desarrolladores, arquitectos de software, y cualquier otro miembro del equipo de desarrollo. Servirá como una guía fundamental para la implementación, el mantenimiento y la futura expansión del sistema, asegurando que los componentes y sus interacciones estén definidos y comprendidos.
-
-### 1.2 Alcance
-
-- Descripción del sistema y sus objetivos
-- Vista de la arquitectura (casos de uso, lógica, desarrollo, procesos y despliegue)
-- Modelos de dominio
-- Componentes y patrones de diseño
-- Arquitectura en capas
-- Prácticas de codificación limpia
-- Estilos de programación
-- Principios SOLID
-- Conceptos de Diseño Orientado al Dominio (DDD)
-
-### 1.3 Definiciones, Acrónimos y Abreviaturas
-
-- **API**: Interfaz de Programación de Aplicaciones (Application Programming Interface)
-- **DDD**: Diseño Orientado al Dominio (Domain-Driven Design)
-- **DB**: Base de Datos (Database)
-- **UI**: Interfaz de Usuario (User Interface)
-- **MVC**: Modelo-Vista-Controlador (Model-View-Controller)
-- **JWT**: JSON Web Token
-- **CRUD**: Crear, Leer, Actualizar, Borrar (Create, Read, Update, Delete)
-
-## 2. Descripción del Sistema
-
-### 2.1 Descripción General
-
-El sistema de red social desarrollado tiene como propósito principal proporcionar una plataforma en la que los usuarios puedan interactuar, compartir contenido y establecer conexiones sociales. Las funcionalidades principales del sistema incluyen:
-
-- **Registro y Autenticación de Usuarios**: Los usuarios pueden registrarse y autenticarse de manera segura.
-- **Perfil de Usuario**: Los usuarios pueden crear y actualizar su perfil personal, incluyendo información básica y fotografía.
-- **Publicación de Contenidos**: Los usuarios pueden crear, editar y eliminar publicaciones de texto, imágenes y videos.
-- **Interacción Social**: Los usuarios pueden interactuar con las publicaciones a través de comentarios y reacciones (me gusta, compartir).
-
-### 2.2 Objetivos
-
-**Objetivos de Diseño:**
-
-- **Seguridad y Privacidad**: Proteger los datos de los usuarios mediante autenticación segura y cifrado de información sensible.
-- **Escalabilidad**: Diseñar el sistema de manera que pueda manejar un gran número de usuarios y un alto volumen de interacciones sin pérdida de rendimiento.
-- **Usabilidad**: Garantizar una interfaz de usuario intuitiva y accesible que permita una fácil navegación y uso de todas las funcionalidades.
-- **Mantenibilidad**: Implementar una arquitectura modular que facilite la actualización y mantenimiento del sistema.
-- **Rendimiento**: Asegurar tiempos de respuesta rápidos y un rendimiento óptimo bajo carga.
-
-## 3. Vista de la Arquitectura
-
-### 3.1 Vista de Casos de Uso
-
-En esta sección se describen los principales casos de uso del sistema de red social y cómo interactúan con los componentes arquitectónicos.
-
-**Casos de Uso Principales:**
-
-- **Registro de Usuario:**
-  - **Actor**: Usuario
-  - **Descripción**: El usuario se registra proporcionando sus datos personales.
-  - **Componentes Involucrados**: Frontend (Formulario de Registro), Backend (Controlador de Registro, Servicio de Usuario), Base de Datos (Tabla de Usuarios).
-
-- **Autenticación de Usuario:**
-  - **Actor**: Usuario
-  - **Descripción**: El usuario inicia sesión utilizando su nombre de usuario y contraseña.
-  - **Componentes Involucrados**: Frontend (Formulario de Inicio de Sesión), Backend (Controlador de Autenticación, Servicio de Autenticación), Base de Datos (Tabla de Usuarios).
-
-- **Publicación de Contenidos:**
-  - **Actor**: Usuario
-  - **Descripción**: El usuario crea una nueva publicación de texto, imagen o video.
-  - **Componentes Involucrados**: Frontend (Editor de Publicaciones), Backend (Controlador de Publicaciones, Servicio de Publicaciones), Base de Datos (Tabla de Publicaciones).
-
-- **Interacción Social:**
-  - **Actor**: Usuario
-  - **Descripción**: El usuario comenta y reacciona a publicaciones.
-  - **Componentes Involucrados**: Frontend (Interfaz de Comentarios y Reacciones), Backend (Controlador de Comentarios y Reacciones, Servicio de Interacción Social), Base de Datos (Tabla de Comentarios y Reacciones).
-
-- **Gestión de Amigos:**
-  - **Actor**: Usuario
-  - **Descripción**: El usuario envía y acepta solicitudes de amistad.
-  - **Componentes Involucrados**: Frontend (Interfaz de Gestión de Amigos), Backend (Controlador de Amigos, Servicio de Gestión de Amigos), Base de Datos (Tabla de Amigos).
-
-### 3.2 Vista Lógica
-
-La vista lógica presenta el diagrama de clases del sistema y describe los componentes lógicos principales.
-
-**Diagrama de Clases:**
-
-[Diagrama de clases aquí]
-
-**Descripción de Componentes Lógicos:**
-
-- **Usuario:**
-  - **Atributos**: id, nombre, email, contraseña, perfil
-  - **Métodos**: registrar(), autenticar(), actualizarPerfil()
-
-- **Publicación:**
-  - **Atributos**: id, contenido, fechaCreación, autor
-  - **Métodos**: crear(), editar(), eliminar()
-
-- **Comentario:**
-  - **Atributos**: id, contenido, fechaCreación, autor, publicación
-  - **Métodos**: agregar(), editar(), eliminar()
-
-- **Amigo:**
-  - **Atributos**: id, usuario, amigo
-  - **Métodos**: enviarSolicitud(), aceptarSolicitud(), rechazarSolicitud()
-
-### 3.3 Vista de Procesos
-
-La vista de procesos describe los procesos y subprocesos que el sistema manejará, así como su interacción.
-
-[Descripción de procesos aquí]
-
-### 3.4 Vista Física
-
-La vista física presenta el diagrama de despliegue que muestra cómo los componentes de software se asignan al hardware físico.
-
-[Diagrama de despliegue aquí]
-
+Este proyecto está licenciado bajo la [Licencia MIT](LICENSE).
