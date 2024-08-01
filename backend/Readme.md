@@ -249,7 +249,7 @@ Extraer el código repetido en una función separada.
         return jsonify(new_user.to_dict()), 201
 ```
 
-#### Funciones Grandes
+### Funciones Grandes
 
 Funciones que hacen demasiado y tienen muchas responsabilidades.
 
