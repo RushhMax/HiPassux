@@ -10,19 +10,19 @@ def get_posts():
     posts = PostService.get_all_posts()
     return jsonify([post.to_dict() for post in posts])
 
-@post_api.route('/id/<int:post_id>', methods=['GET'])
+@post_api.route('/<int:post_id>', methods=['GET'])
 def get_post(post_id):
     post = PostService.get_post_by_id(post_id)
     if post:
         return jsonify(post.to_dict())
     return jsonify({'error': error_post}), 404
 
-@post_api.route('/<int:user_id>', methods=['GET'])
+@post_api.route('/user/<int:user_id>', methods=['GET'])
 def get_post_by_user(user_id):
     posts = PostService.get_posts_by_user(user_id)
     return jsonify([post.to_dict() for post in posts])
 
-@post_api.route('/createPost', methods=['POST'])
+@post_api.route('/', methods=['POST'])
 def create_post():
     data = request.json
     new_post = PostService.create_post(
@@ -31,7 +31,7 @@ def create_post():
     )
     return jsonify(new_post.to_dict()), 201
 
-@post_api.route('/updatePost/<int:post_id>', methods=['PUT'])
+@post_api.route('/<int:post_id>', methods=['PUT'])
 def update_post(post_id):
     data = request.json
     updated_post = PostService.update_post(post_id, data)
@@ -39,7 +39,7 @@ def update_post(post_id):
         return jsonify(updated_post.to_dict())
     return jsonify({'error': error_post}), 404
 
-@post_api.route('/deletePost/<int:post_id>', methods=['DELETE'])
+@post_api.route('/<int:post_id>', methods=['DELETE'])
 def delete_post(post_id):
     success = PostService.delete_post(post_id)
     if success:

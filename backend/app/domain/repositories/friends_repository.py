@@ -1,4 +1,6 @@
-from app.domain.entities.friends import FriendRequest, RequestStatus ,db
+from app.domain.entities.friends import FriendRequest, RequestStatus, db
+from app.domain.entities.user import User
+
 class FriendRequestRepository:
     
     @staticmethod
@@ -10,19 +12,30 @@ class FriendRequestRepository:
         return FriendRequest.query.get(request_id)
     
     @staticmethod
-    def get_requests_by_sender(sender_id):
-        return FriendRequest.query.filter_by(sender_id=sender_id).all()
-    
+    def get_requests_by_sender_username(sender_username):
+        sender = User.query.filter_by(username=sender_username).first()
+        if sender:
+            return FriendRequest.query.filter_by(sender_id=sender.user_id).all()
+        return []
+
     @staticmethod
-    def get_requests_by_receiver(receiver_id):
-        return FriendRequest.query.filter_by(receiver_id=receiver_id).all()
-    
+    def get_requests_by_receiver_username(receiver_username):
+        receiver = User.query.filter_by(username=receiver_username).first()
+        if receiver:
+            return FriendRequest.query.filter_by(receiver_id=receiver.user_id).all()
+        return []
+
     @staticmethod
-    def create_friend_request(sender_id, receiver_id):
-        new_request = FriendRequest(sender_id=sender_id, receiver_id=receiver_id)
-        db.session.add(new_request)
-        db.session.commit()
-        return new_request
+    def create_friend_request(sender_username, receiver_username):
+        sender = User.query.filter_by(username=sender_username).first()
+        receiver = User.query.filter_by(username=receiver_username).first()
+        
+        if sender and receiver:
+            new_request = FriendRequest(sender_id=sender.user_id, receiver_id=receiver.user_id)
+            db.session.add(new_request)
+            db.session.commit()
+            return new_request
+        return None
     
     @staticmethod
     def update_friend_request(request_id, status):

@@ -1,9 +1,9 @@
 from flask import Blueprint, jsonify, request
 from app.domain.services.comment_service import CommentService
 
-comment_api = Blueprint('comment_api', 'comment_api', url_prefix='/api/comments')
+comment_api = Blueprint('comment_api', __name__, url_prefix='/api/comments')
 
-error_Comment = 'Comment not found'
+error_comment = 'Comment not found'
 
 @comment_api.route('/', methods=['GET'])
 def get_comments():
@@ -15,25 +15,31 @@ def get_comment(comment_id):
     comment = CommentService.get_comment_by_id(comment_id)
     if comment:
         return jsonify(comment.to_dict())
-    return jsonify({'error': error_Comment}), 404
+    return jsonify({'error': error_comment}), 404
 
 @comment_api.route('/', methods=['POST'])
 def create_comment():
     data = request.json
-    new_comment = CommentService.create_comment(data)
+    content = data.get('content')
+    user_id = data.get('user_id')
+    post_id = data.get('post_id')
+    
+    new_comment = CommentService.create_comment(content, user_id, post_id)
     return jsonify(new_comment.to_dict()), 201
 
 @comment_api.route('/<int:comment_id>', methods=['PUT'])
 def update_comment(comment_id):
     data = request.json
-    updated_comment = CommentService.update_comment(comment_id, data)
+    content = data.get('content')
+    
+    updated_comment = CommentService.update_comment(comment_id, content)
     if updated_comment:
         return jsonify(updated_comment.to_dict())
-    return jsonify({'error': error_Comment}), 404
+    return jsonify({'error': error_comment}), 404
 
 @comment_api.route('/<int:comment_id>', methods=['DELETE'])
 def delete_comment(comment_id):
     success = CommentService.delete_comment(comment_id)
     if success:
         return jsonify({'message': 'Comment deleted successfully'})
-    return jsonify({'error': error_Comment}), 404
+    return jsonify({'error': error_comment}), 404

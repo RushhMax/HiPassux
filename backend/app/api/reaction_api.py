@@ -3,6 +3,7 @@ from app.domain.services.reaction_service import ReactionService
 
 reaction_api = Blueprint('reaction_api', 'reaction_api', url_prefix='/api/reactions')
 
+error_reaction="reaction not found"
 
 @reaction_api.route('/', methods=['GET'])
 def get_reactions():
