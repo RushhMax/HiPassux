@@ -82,10 +82,10 @@ Desde la perspectiva del proyecto, se presenta una red social especificamente di
 						
 
 ## Diagrama de Clases
-![Modelo de Dominio](Imgs/ClassDiagram1.jpeg)
+![Modelo de Dominio](Imgs/ClassDiagram1.png)
 
 ## Modelo de Dominio
-![Modelo de Dominio](Imgs/ModeloDDD.jpeg)
+![Modelo de Dominio](Imgs/ModeloDDD.png)
 
 	Figura 2. Modelo de Dominio y los Subcontextos usando Paquetes UML
 
