@@ -39,12 +39,11 @@ def register():
                 email=email,
                 password=password
             )
-            return redirect(url_for('user.get_users'))  # Redirige después de crear el usuario
+            return redirect(url_for('user.get_users'))  
 
         except Exception as e:
             return render_template('register.html', error=f'Ocurrió un error: {e}')
     
-    # Si es GET, simplemente muestra el formulario
     return render_template('register.html')
 
 

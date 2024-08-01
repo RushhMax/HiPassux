@@ -14,15 +14,14 @@ def create_post():
     if request.method == 'POST':
         try:
             content = request.form['content']
-            user_id = request.form['user_id']  # Assuming you have a way to determine the author
+            user_id = request.form['user_id'] 
 
-            # Call the PostService to create a new post
             PostService.create_post(
                 content=content,
                 user_id=user_id
             )
 
-            return redirect(url_for('post.get_posts'))  # Redirect after creating the post
+            return redirect(url_for('post.get_posts')) 
 
         except Exception as e:
             return render_template('new_post.html', error=f'An error occurred: {e}')

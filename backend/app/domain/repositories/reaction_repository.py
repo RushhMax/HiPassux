@@ -6,23 +6,19 @@ class ReactionRepository(BaseRepository):
     @staticmethod
     def get_all_reactions():
         return Reaction.query.all()
-        # Obtiene todos las reacciones  de la base de datos.
 
     @staticmethod
     def get_reactions_by_post(post_id):
-        """Get all reactions for a specific post."""
         return Reaction.query.filter_by(post_id=post_id).all()
     
     @staticmethod
     def get_reactions_by_comment(comment_id):
-        """Get all reactions for a specific post."""
         return Reaction.query.filter_by(comment_id=comment_id).all()
     
     @staticmethod
     def add(reaction):
         db.session.add(reaction)
         db.session.commit()
-        # Añade un usuario a la base de datos y confirma la transacción.
 
     @staticmethod
     def update_reaction():

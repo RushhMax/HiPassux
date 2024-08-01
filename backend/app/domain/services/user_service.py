@@ -12,7 +12,6 @@ class UserService:
     def get_user_by_id(user_id):
         return UserRepository.get_user_by_id(user_id)
 
-    # Función para obtener datos un usuario por su username
     @staticmethod
     def get_user_by_username(username):
         user = UserRepository.get_user_by_username(username)
@@ -33,8 +32,6 @@ class UserService:
             raise ValueError("User not found")
         return user
     
-   
-
     @staticmethod
     def authenticate(username, password):
         user = UserRepository.get_user_by_username(username)
@@ -94,15 +91,12 @@ class UserService:
         except Exception as e:
             return {'error': f'Ocurrió un error al actualizar el usuario: {str(e)}'}
     
-
     @staticmethod
     def remove_user_by_username(username):
         user = UserRepository.get_user_by_username(username)
         if user:
             return UserRepository.remove(user)
         return {'error': 'User not found'}
-   
-
    
     @staticmethod
     def update_user_by_username(username, data):

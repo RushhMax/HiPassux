@@ -30,7 +30,7 @@ def get_user_by_username(username):
 @user_api.route('/', methods=['POST'])
 def create_user():
     data = request.json
-    new_user = UserService.create_user( #username, first_name, last_name, birth_date, phone_number, gender, email, password):
+    new_user = UserService.create_user( 
         data.get('username'),
         data.get('first_name'),
         data.get('last_name'),
@@ -63,11 +63,9 @@ def login():
     username = data.get('username')
     password = data.get('password')
 
-    # Verifica las credenciales del usuario
     user = UserService.authenticate(username, password)
 
     if user:
-        # Genera un token JWT
         access_token = create_access_token(identity=user.user_id)
         return jsonify(access_token=access_token), 200
     else:
@@ -79,7 +77,6 @@ def protected():
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
 
-# Ruta para eliminar un usuario por su username
 @user_api.route('/username/<string:username>', methods=['DELETE'])
 def delete_user_by_username(username):
     user = UserService.get_user_by_username(username)
