@@ -24,6 +24,11 @@ def get_post_by_user(user_id):
     posts = PostService.get_posts_by_user(user_id)
     return jsonify([post.to_dict() for post in posts])
 
+@post_api.route('/user/<string:username>', methods=['GET'])
+def get_post_by_username(username):
+    posts = PostService.get_posts_by_username(username)
+    return jsonify([post.to_dict() for post in posts])
+
 @post_api.route('/', methods=['POST'])
 def create_post():
     data = request.json

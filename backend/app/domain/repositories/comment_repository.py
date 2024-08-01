@@ -8,9 +8,13 @@ class CommentRepository:
         return Comment.query.all()
     
     @staticmethod
-    def get_comment_by_id(comment_id):
+    def get_comments_by_id(comment_id):
         return Comment.query.get(comment_id)
     
+    @staticmethod
+    def get_comments_by_post(post_id):
+        return Comment.query.filter_by(post_id=post_id).all()
+
     @staticmethod
     def create_comment(content, user_id, post_id):
         new_comment = Comment(content=content, user_id=user_id, post_id=post_id)

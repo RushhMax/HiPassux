@@ -49,3 +49,8 @@ class PostService:
         
         return PostRepository.get_posts_by_user(user_id)
     
+    @staticmethod
+    def get_posts_by_username(username):
+        return PostRepository.get_posts_by_username(username)
+    
+

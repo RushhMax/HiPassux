@@ -7,9 +7,13 @@ class CommentService:
         return CommentRepository.get_all_comments()
     
     @staticmethod
-    def get_comment_by_id(comment_id):
-        return CommentRepository.get_comment_by_id(comment_id)
+    def get_comments_by_id(comment_id):
+        return CommentRepository.get_comments_by_id(comment_id)
     
+    @staticmethod
+    def get_comments_by_post(post_id):
+        return CommentRepository.get_comments_by_post(post_id)
+
     @staticmethod
     def create_comment(content, user_id, post_id):
         return CommentRepository.create_comment(content, user_id, post_id)

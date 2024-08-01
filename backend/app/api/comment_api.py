@@ -14,10 +14,17 @@ def get_comments():
 
 @comment_api.route('/<int:comment_id>', methods=['GET'])
 def get_comment(comment_id):
-    comment = CommentService.get_comment_by_id(comment_id)
+    comment = CommentService.get_comments_by_id(comment_id)
     if comment:
         return jsonify(comment.to_dict())
     return jsonify({'error': error_comment}), 404
+
+@comment_api.route('/post/<int:post_id>', methods=['GET'])
+def get_comments_by_post(post_id):
+    comments = CommentService.get_comments_by_post(post_id)
+    if comments:
+        return jsonify([comment.to_dict() for comment in comments])
+    return jsonify({'error': 'no comentarios'}), 404
 
 @comment_api.route('/', methods=['POST'])
 def create_comment():
