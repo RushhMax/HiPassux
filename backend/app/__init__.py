@@ -5,8 +5,6 @@ from app.config import Config
 from app.api_routes import init_api_routes #importante tienes que poner el directorio del modelo de tu tabla
 from app.domain.entities.user import db  #importante tienes que poner el directorio del modelo de tu tabla
 
-
-
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)

@@ -16,6 +16,7 @@ class Post(db.Model):
         return f'<Post {self.post_id}>'
 
     def to_dict(self):
+        
         return {
             'id': self.post_id,
             'content': self.content,
