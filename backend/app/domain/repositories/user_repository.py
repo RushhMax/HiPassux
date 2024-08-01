@@ -27,9 +27,6 @@ class UserRepository:
             db.session.rollback()
             return {'error': f'Ocurrió un error al eliminar el usuario: {str(e)}'}
         return {'message': 'Usuario eliminado con éxito'}
-
-    
-    
     
     # Función para obtener un usuario por su id
     @staticmethod

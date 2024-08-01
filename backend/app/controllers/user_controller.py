@@ -4,6 +4,8 @@ from datetime import datetime
 from werkzeug.security import check_password_hash
 bp = Blueprint('user', __name__)
 
+actualizar_perfilHTML = 'actualizar_perfil.html'
+
 @bp.route('/users', methods=['GET'])
 def get_users():
     users = UserService.get_all_users()
@@ -62,7 +64,7 @@ def actualizar_usuario(user_id):
             try:
                 birth_date = datetime.strptime(birth_date_str, '%Y-%m-%d').date()
             except (ValueError, TypeError):
-                return render_template('actualizar_perfil.html', error='Formato de fecha inválido.', user_id=user_id)
+                return render_template(actualizar_perfilHTML, error='Formato de fecha inválido.', user_id=user_id)
 
             result = UserService.update_user(
                 user_id=user_id,
@@ -77,18 +79,18 @@ def actualizar_usuario(user_id):
             )
 
             if isinstance(result, dict) and 'error' in result:
-                return render_template('actualizar_perfil.html', error=result['error'], user_id=user_id)
+                return render_template(actualizar_perfilHTML, error=result['error'], user_id=user_id)
 
             return redirect(url_for('user.get_users'))
 
         except Exception as e:
-            return render_template('actualizar_perfil.html', error=f'Ocurrió un error: {e}', user_id=user_id)
+            return render_template(actualizar_perfilHTML, error=f'Ocurrió un error: {e}', user_id=user_id)
 
     user = UserService.get_user_by_id(user_id)
     if user:
-        return render_template('actualizar_perfil.html', user=user)
+        return render_template(actualizar_perfilHTML, user=user)
     else:
-        return render_template('actualizar_perfil.html', error='Usuario no encontrado.', user_id=user_id)
+        return render_template(actualizar_perfilHTML, error='Usuario no encontrado.', user_id=user_id)
     
 @bp.route('/login', methods=['GET', 'POST'])
 def login():

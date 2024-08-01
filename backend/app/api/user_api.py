@@ -57,9 +57,6 @@ def delete_user(user_id):
         return jsonify({'message': 'User deleted successfully'})
     return jsonify({'error': error_User}), 404
 
-
-
-
 @user_api.route('/login', methods=['POST'])
 def login():
     data = request.json
@@ -82,8 +79,6 @@ def protected():
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
 
-
-
 # Ruta para eliminar un usuario por su username
 @user_api.route('/username/<string:username>', methods=['DELETE'])
 def delete_user_by_username(username):
@@ -94,8 +89,6 @@ def delete_user_by_username(username):
             return jsonify(result), 400
         return jsonify({'message': 'User successfully deleted'}), 200
     return jsonify({'error': error_User}), 404
-
-
 
 @user_api.route('/username/<string:username>', methods=['PUT'])
 def update_user_by_username(username):
